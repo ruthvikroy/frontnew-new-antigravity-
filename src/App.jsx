@@ -19,13 +19,11 @@ import { NatGeoHeader } from './components/natgeo/NatGeoHeader.jsx';
 import { EditorialHero } from './components/natgeo/EditorialHero.jsx';
 import { ScrollLockTextSection } from './components/natgeo/ScrollLockTextSection.jsx';
 import { ArticlesSection } from './components/natgeo/ArticlesSection.jsx';
-import { FeaturedContentSection } from './components/natgeo/FeaturedContentSection.jsx';
-import { ExpeditionsSection } from './components/natgeo/ExpeditionsSection.jsx';
+import { MarsSurface3DSimulation } from './components/mars/MarsSurface3DSimulation.jsx';
 import { NatGeoFooter } from './components/natgeo/NatGeoFooter.jsx';
 import { ArticleReaderModal } from './components/natgeo/ArticleReaderModal.jsx';
 import { VideoModal } from './components/natgeo/VideoModal.jsx';
 import { GalleryModal } from './components/natgeo/GalleryModal.jsx';
-import { ExpeditionDetailModal } from './components/natgeo/ExpeditionDetailModal.jsx';
 
 export default function App() {
   const [viewMode, setViewMode] = useState('editorial');
@@ -33,7 +31,6 @@ export default function App() {
   const [activeArticleModal, setActiveArticleModal] = useState(null);
   const [activeVideoModal, setActiveVideoModal] = useState(null);
   const [activeGalleryModal, setActiveGalleryModal] = useState(null);
-  const [activeExpeditionModal, setActiveExpeditionModal] = useState(null);
 
   const [category, setCategory] = useState('all');
   const [criterion, setCriterion] = useState('elevation');
@@ -205,27 +202,7 @@ export default function App() {
             }}
           />
 
-          <FeaturedContentSection
-            onOpenArticleModal={(article) => {
-              setActiveArticleModal(article);
-              playTelemetryBlip();
-            }}
-            onOpenVideoModal={(video) => {
-              setActiveVideoModal(video);
-              playTelemetryBlip();
-            }}
-            onOpenGalleryModal={(gallery) => {
-              setActiveGalleryModal(gallery);
-              playTelemetryBlip();
-            }}
-          />
-
-          <ExpeditionsSection
-            onSelectExpedition={(exp) => {
-              setActiveExpeditionModal(exp);
-              playTelemetryBlip();
-            }}
-          />
+          <MarsSurface3DSimulation />
         </main>
 
         <NatGeoFooter
@@ -253,13 +230,6 @@ export default function App() {
           <GalleryModal
             gallery={activeGalleryModal}
             onClose={() => setActiveGalleryModal(null)}
-          />
-        )}
-
-        {activeExpeditionModal && (
-          <ExpeditionDetailModal
-            expedition={activeExpeditionModal}
-            onClose={() => setActiveExpeditionModal(null)}
           />
         )}
       </div>

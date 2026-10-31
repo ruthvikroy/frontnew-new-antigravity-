@@ -37,35 +37,43 @@ export function NatGeoFooter({ onLaunchSimulation = () => {} }) {
                 EXPLORATION
               </span>
               <a href="#hero" className="hover:text-[#F1F1F1] transition-colors">EARTH DISPATCH</a>
-              <a href="#articles" className="hover:text-[#F1F1F1] transition-colors">LUNAR CARTOGRAPHY</a>
-              <button onClick={onLaunchSimulation} className="text-left hover:text-[#F1F1F1] transition-colors cursor-pointer">3D MARS ORBIT</button>
-              <a href="https://github.com/ruthvikroy/mars-simulation-" target="_blank" rel="noopener noreferrer" className="hover:text-red-400 text-red-300 transition-colors">MARS REPO (GITHUB)</a>
-              <a href="#expeditions" className="hover:text-[#F1F1F1] transition-colors">GLOBAL ATLAS</a>
+              <a href="#scroll-lock-stage" className="hover:text-[#F1F1F1] transition-colors">NARRATIVE LOCK</a>
+              <a href="#articles" className="hover:text-[#F1F1F1] transition-colors">ANALOG DISPATCHES</a>
+              <a href="#mars-surface-simulation" className="text-red-400 hover:text-white font-bold transition-colors">3D MARS SURFACE</a>
+              <button onClick={onLaunchSimulation} className="text-left text-[#F5D000] hover:underline transition-colors cursor-pointer font-bold">3D CELESTIAL ENGINE</button>
             </div>
 
             <div className="flex flex-col gap-2.5">
               <span className="text-[#F1F1F1] font-bold tracking-widest text-[10px] text-[#F5D000]">
-                DIVISIONS
+                SCIENTIFIC ARCHIVES
               </span>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">PLANETARY ASTROPHYSICS</span>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">HADAL OCEANOGRAPHY</span>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">GLACIOLOGY ARCHIVE</span>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">VOLCANOLOGY LAB</span>
+              <a href="https://pds.nasa.gov" target="_blank" rel="noopener noreferrer" className="hover:text-[#F1F1F1] transition-colors">NASA PLANETARY DATA SYSTEM</a>
+              <a href="https://astrogeology.usgs.gov" target="_blank" rel="noopener noreferrer" className="hover:text-[#F1F1F1] transition-colors">USGS ASTROGEOLOGY</a>
+              <a href="https://mars.nasa.gov/mars2020/" target="_blank" rel="noopener noreferrer" className="hover:text-[#F1F1F1] transition-colors">MARS PERSEVERANCE</a>
+              <a href="https://www.lroc.asu.edu" target="_blank" rel="noopener noreferrer" className="hover:text-[#F1F1F1] transition-colors">LROC LUNAR ATLAS</a>
             </div>
 
             <div className="flex flex-col gap-2.5">
               <span className="text-[#F1F1F1] font-bold tracking-widest text-[10px] text-[#F5D000]">
-                INTERACTIVE
+                REPOSITORIES
               </span>
-              <button
-                onClick={onLaunchSimulation}
-                className="text-left text-[#F5D000] hover:underline cursor-pointer font-bold"
+              <a
+                href="https://github.com/ruthvikroy/mars-simulation-"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-red-300 hover:text-white transition-colors font-bold"
               >
-                3D EARTH-MOON-MARS
-              </button>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">FIELD LOG ARCHIVES</span>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">EXPEDITION TRUST</span>
-              <span className="hover:text-[#F1F1F1] cursor-pointer">IMAGE GALLERIES</span>
+                MARS SIMULATION (GITHUB)
+              </a>
+              <a
+                href="https://github.com/ruthvikroy/frontnew-new-antigravity-"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#F1F1F1] transition-colors"
+              >
+                ASTRODASHBOARD (GITHUB)
+              </a>
+              <span className="text-[#666666]">WEBGL 3D GRAPHICS</span>
             </div>
           </div>
         </div>

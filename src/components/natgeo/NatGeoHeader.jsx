@@ -17,9 +17,9 @@ export function NatGeoHeader({
 
   const navLinks = [
     { id: 'hero', label: 'EXPLORE', href: '#hero' },
-    { id: 'articles', label: 'ARTICLES', href: '#articles' },
-    { id: 'featured', label: 'SERIES & DISPATCH', href: '#featured' },
-    { id: 'expeditions', label: 'ATLAS EXPEDITIONS', href: '#expeditions' },
+    { id: 'narrative', label: 'NARRATIVE', href: '#scroll-lock-stage' },
+    { id: 'articles', label: 'ANALOG DISPATCHES', href: '#articles' },
+    { id: 'mars-surface', label: '3D MARS SURFACE', href: '#mars-surface-simulation' },
   ];
 
   return (
