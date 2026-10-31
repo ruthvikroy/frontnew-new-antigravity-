@@ -1,0 +1,8 @@
+{
+  "name": "Team Space Punks - Earth & Moon Comparative Telemetry",
+  "description": "Minimalist high-contrast comparative dashboard for Earth and Moon locations with synchronized scrolling animations, telemetry deltas, and sort-filtering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

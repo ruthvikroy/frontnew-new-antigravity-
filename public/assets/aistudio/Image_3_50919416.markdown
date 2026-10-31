@@ -1,0 +1,267 @@
+---
+name: Orbital Editorial
+colors:
+  surface: '#111316'
+  surface-dim: '#111316'
+  surface-bright: '#37393d'
+  surface-container-lowest: '#0c0e11'
+  surface-container-low: '#1a1c1f'
+  surface-container: '#1e2023'
+  surface-container-high: '#282a2d'
+  surface-container-highest: '#333538'
+  on-surface: '#e2e2e6'
+  on-surface-variant: '#d2c5ab'
+  inverse-surface: '#e2e2e6'
+  inverse-on-surface: '#2f3034'
+  outline: '#9a9078'
+  outline-variant: '#4e4632'
+  surface-tint: '#f1c100'
+  primary: '#ffedc3'
+  on-primary: '#3d2f00'
+  primary-container: '#ffcc00'
+  on-primary-container: '#6f5700'
+  inverse-primary: '#745b00'
+  secondary: '#b6c4ff'
+  on-secondary: '#00277f'
+  secondary-container: '#0056fd'
+  on-secondary-container: '#e4e7ff'
+  tertiary: '#ffecce'
+  on-tertiary: '#412d00'
+  tertiary-container: '#ffca5f'
+  on-tertiary-container: '#755400'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#ffe08b'
+  primary-fixed-dim: '#f1c100'
+  on-primary-fixed: '#241a00'
+  on-primary-fixed-variant: '#584400'
+  secondary-fixed: '#dce1ff'
+  secondary-fixed-dim: '#b6c4ff'
+  on-secondary-fixed: '#001550'
+  on-secondary-fixed-variant: '#003ab2'
+  tertiary-fixed: '#ffdea4'
+  tertiary-fixed-dim: '#fcbc24'
+  on-tertiary-fixed: '#261900'
+  on-tertiary-fixed-variant: '#5d4200'
+  background: '#111316'
+  on-background: '#e2e2e6'
+  surface-variant: '#333538'
+  space-void: '#000000'
+  surface-charcoal: '#191919'
+  surface-slate: '#0D1117'
+  telemetry-cyan: '#00E5FF'
+  telemetry-mars: '#FF453A'
+  border-subtle: rgba(255, 255, 255, 0.12)
+  glass-panel: rgba(18, 20, 23, 0.65)
+typography:
+  display-xl:
+    fontFamily: Playfair Display
+    fontSize: 4.5rem
+    fontWeight: '700'
+    lineHeight: '1.05'
+    letterSpacing: -0.02em
+  display-xl-mobile:
+    fontFamily: Playfair Display
+    fontSize: 2.75rem
+    fontWeight: '700'
+    lineHeight: '1.1'
+    letterSpacing: -0.01em
+  headline-lg:
+    fontFamily: Playfair Display
+    fontSize: 3rem
+    fontWeight: '600'
+    lineHeight: '1.15'
+    letterSpacing: -0.015em
+  headline-lg-mobile:
+    fontFamily: Playfair Display
+    fontSize: 2rem
+    fontWeight: '600'
+    lineHeight: '1.2'
+    letterSpacing: '0'
+  headline-md:
+    fontFamily: Playfair Display
+    fontSize: 2rem
+    fontWeight: '600'
+    lineHeight: '1.25'
+  headline-sm:
+    fontFamily: Space Grotesk
+    fontSize: 1.25rem
+    fontWeight: '600'
+    lineHeight: '1.4'
+    letterSpacing: 0.02em
+  body-lg:
+    fontFamily: Space Grotesk
+    fontSize: 1.125rem
+    fontWeight: '400'
+    lineHeight: '1.6'
+  body-md:
+    fontFamily: Space Grotesk
+    fontSize: 0.9375rem
+    fontWeight: '400'
+    lineHeight: '1.55'
+  body-sm:
+    fontFamily: Space Grotesk
+    fontSize: 0.8125rem
+    fontWeight: '400'
+    lineHeight: '1.5'
+  telemetry-value:
+    fontFamily: JetBrains Mono
+    fontSize: 1.5rem
+    fontWeight: '500'
+    lineHeight: '1.2'
+    letterSpacing: -0.02em
+  label-caps:
+    fontFamily: JetBrains Mono
+    fontSize: 0.6875rem
+    fontWeight: '600'
+    lineHeight: '1.2'
+    letterSpacing: 0.14em
+  label-code:
+    fontFamily: JetBrains Mono
+    fontSize: 0.75rem
+    fontWeight: '400'
+    lineHeight: '1.4'
+rounded:
+  sm: 0.125rem
+  DEFAULT: 0.25rem
+  md: 0.375rem
+  lg: 0.5rem
+  xl: 0.75rem
+  full: 9999px
+spacing:
+  gutter: 1.5rem
+  gutter-desktop: 2rem
+  margin: 1rem
+  margin-tablet: 2rem
+  margin-desktop: 3.5rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2.5rem
+  space-2xl: 4rem
+---
+
+## Brand & Style
+
+The design system merges prestigious scientific journalism with the quiet drama of deep space exploration. Its identity is forged at the crossroads of classic high-end publication design and aerospace telemetry interfaces. It evokes intellectual curiosity, awe, and empirical rigor—treating astronomical data not as cold readouts, but as modern artifacts of human discovery.
+
+The design philosophy unites **Dark Minimalist Editorial** with **Precision HUD / Glassmorphism**:
+- **Immersive Void:** Grounded in absolute black and cosmic charcoal surfaces that push deep-space astronomical photography and 3D celestial models into high-contrast focus.
+- **Editorial Authority:** Grand, classic display typography sets an authoritative, literary tone, contrasted against razor-sharp technical mono and grotesk figures.
+- **Instrument Precision:** Fine hair-width dividers, glowing telemetry badges, and translucent glass panels create the tactile sensation of an observatory cockpit or specialized mission console.
+
+## Colors
+
+The palette is tuned specifically for deep-space visualization in a native dark environment:
+- **Primary (`#FFCC00`):** The unmistakable signature gold/yellow border of discovery. Reserved for primary calls to action, high-priority telemetry highlights, focal indicators, and active navigation states.
+- **Secondary (`#0057FF`):** Deep orbital beacon blue. Applied to secondary controls, orbital path vectors, planetary trajectory highlights, and active scientific telemetry.
+- **Tertiary (`#E5A800`):** Muted solar amber used for secondary warnings, intermediate states, and hover transitions on primary elements.
+- **Neutral (`#121417`):** Midnight graphite base. Serves as the atmospheric ground plane, preventing harsh pure-black eye strain while retaining boundless depth.
+
+### Functional Application
+- **Surfaces:** Stacked from `space-void` (`#000000`) for canvas bases, up through `surface-slate` (`#0D1117`) and `surface-charcoal` (`#191919`) for elevated panels and metric cards.
+- **Outlines & Separators:** Strictly use `border-subtle` (`rgba(255, 255, 255, 0.12)`) to yield razor-sharp, low-noise grid lines reminiscent of precision reticles.
+- **Telemetry Indicators:** `telemetry-cyan` (`#00E5FF`) for Earth-relative coordinates and cryogenic data; `telemetry-mars` (`#FF453A`) for atmospheric alerts and trajectory risks.
+
+## Typography
+
+The typographic hierarchy establishes a dramatic tension between classical exploratory literature and mission control instruments:
+- **Headlines & Feature Titles (`Playfair Display`):** Evokes the historic legacy of editorial storytelling and celestial atlases. Large titles must feature tight leading with slight negative tracking to preserve weight and gravitas.
+- **Narrative & Contextual Copy (`Space Grotesk`):** Provides a crisp, geometric sans-serif bridge between literary titles and raw telemetry. Used across long-form analysis, overview synopses, and descriptive panels.
+- **Instruments, Metrics & Metadata (`JetBrains Mono`):** Strictly reserved for numerical telemetry, spectral classifications, orbital metrics, coordinates, and micro-labels. Always rendered with tabular figures (`tnum`) to maintain exact alignment across comparative data matrices.
+
+Use `label-caps` in uppercase with expanded letter-spacing (`0.14em`) for category anchors, axis badges, and scientific prefixes (e.g., `APOAPSIS // 405,400 KM`).
+
+## Layout & Spacing
+
+The layout is built upon an architectural 12-column grid system paired with strict horizontal rhythm lines:
+- **Breakpoints:** Mobile (<768px), Tablet (768px–1199px), and Desktop (≥1200px).
+- **Desktop Architecture:** Employs wide, asymmetric compositions. Primary narrative or focal celestial renderings span 4�$���[[���[H[[Y]�H�Z[�[���\\�]]�H]H[�[\�[��܈[�H�[XZ[�[��8�$�H��[[�˂�H
+���YKX�KT�YH��\\�]]�HX]�X�\Ί��YX�]Y�X��[[��]�
+X\��[�ۈ�X\��H�����]\�ۈ\����]�\�]�Y[��\���\\�]YۛH�H�ܙ\�\�X�XZ\�[����[][]HY�Y[��]H؜�\��]ܞH\���\�˂�H
+��[ؚ[HY\][ۜΊ����[[����\�H[���[��KX��[[��\�X�[[[Y]�H�X��ˈ��\\�]]�HY]�X���[��][ۈ[��ܚ^�۝[��\H�����]�X��H[�]HXY\�ˈ�]\��]\�����\�[X�X^[Z^�H�ܙY[��X[\�]H�܈��\\�]]�H�[X�\�˂����[]�][ۈ	�\��\\�\�X�\�Y��Y��[��X�[�][��\�X�^Y\�[���X�[�\�[�Y�\�X�\�[ۈ[Z[�\��[��H�]\�[�Y��\�H[X�Y[����Y��΂��K�
+���\�Hܛ�[�
+]�[
+N���\�H��Y�X��
+�
+K�����[X�YY��ܘ\X�Y\\�X�H�\\�\��\��Y[�[�[X�Y[��[��\��X��ܛ�[�˂���
+���\��[[Y]�H�\��X�H
+]�[JN����[ZK]�[��\�[�\���]H�X����
+�ؘJL�M����̊X
+H�]HM��X�����[\��\�[�[�[�K][��ܙ\�
+\��Y�ؘJ�MK�MK�MK�L�X
+K�\�Y�܈�[�\��\���XY[��[�[\�[�Y]�X��۝Z[�\�˂�ˈ
+��[]�]YQ��]
+]�[�N���^Y\�Y�۝������ݙ\��\��[��X��HZ\��[ۈ�\��
+�ؘJ�K�K�K�JX
+H�][�[��\��Z\�[�H�ܙ\�
+\��Y�ؘJ�MK�MK�MK��X
+H[�[�^\�[܈Y�H���
+��ؘJ�
+X
+K���
+��X�]�H[Z[�\��[��H
+]�[�N����\�\��Y�܈X�]�H���\�[�\�X�]�H\��]�[��[X\�HX��[�ˈX�Y]�Y\�[��H�[X�]�HY[������X�[\����
+��\�Y�ΈM��ؘJ�MK���JX
+K������\\�H�\�X[[��XY�HY\�\����X��[�X�[�[�Y]�N��H
+��\��]X�\�[�X�\�[ێ����Y]\�\��\^�[Y[H��
+��[�Y�\�ΈX�\�H��\�[X�
+K�\�XZ[�Z[��[�[���[Y[�YܘYHY\�]X��[Z[�\��[�وY\���X�H�ۜ��\��Y��ٝ�\�K[��Y]ٚ[�\��]X�\˂�H
+��Q�X�[[�X\�[��ܜΊ��\��\��Y]�ܝ�YYXH�۝Z[�\��[�[�[[�[�\�H��[�Y[�
+�\�[X
+K��H
+���Yۘ]\�H�X�[��[\�X��[�����]�[�����HHX�ۚX�Y]ܚX[�ܙ\��\��[��X]\�Y�\�X[�����[\�H[�\�[[Y]�X�[X��[��[��[ۘ[[��]��Y����\H[ۙ�HY�܈��ܙ\���H
+��[^�\[ێ����]\�[�X�]ܜ��[��܈[�X�]ܜ�[�X�]�H]�HX\��\��X^H\�H�[�\�[H�YZH
+��[�YY�[
+H^�\�]�[H�[�[�\��[��[ZY��������\ۙ[������]ۜH
+���[X\�HX�[ێ�����Y�X��ܛ�[�[��Yۘ]\�H��
+ё���
+K^[��X�K]��Y
+�
+H�][��X�Hܛ�\����
+
+K��\N���[�Y
+
+K�ݙ\���X�\�H�X�H��\����H
+��\�Y�Έ��ؘJ�MK��
+X
+K��H
+���X�ۙ\�H[[Y]�HX�[ێ����][�Y�]ۈ�]\��Y�ؘJ�MK�MK�MK��X�[��\�[��X��ܛ�[�^[��]H
+ё�����
+K�ݙ\��[��]�ؘJ�MK�MK�MK�
+X[��ܙ\����Y�[��ё�������H
+���\�[H��]����N���[ۛ��X�YX�[
+�]��Z[��[ۛ�
+K\\��\�K�\���[�Y�H��X��]�\��VԑHX�Y�[���ё���ۈݙ\���������\\�]]�H]H�\��
+X\��[�ۈ�X\��B�H
+���۝Z[�\����\���[��X�[��\��
+�ؘJN�����JX
+K�ܙ\�\��Y�ؘJ�MK�MK�MK�L�X��[�Y�ܛ�\�˂�H
+��XY\�����X]\�\�[�]H\�Yۘ][ۈ[�^Y�Z\�\�^X�X�X�\[ۙY�H\���Z\��[ۈ��ܙ[�]\�[�X�[X�\���H
+��Y]�X����Ί��[\��][��Z\�[�Hܚ^�۝[]�Y\��
+�ؘJ�MK�MK�MK��X
+K�Y]�X�X�[�ۈY�[�X�[X��X
+]]Yܘ^JN��[Y\�ۈ�Y�[�[[Y]�K]�[YX
+�]��Z[��[ۛ��]JK��H
+��Y��\�[�X[YΊ���X[[�[�HQ�Y�H\�^Z[��Y��\�[��\�
+K�ˋL����܈
+�K�L�UX
+HY�Y�Y[�[[Y]�KX�X[�܈[[Y]�K[X\��������Q�\�	��Y�\H
+���]\��Y�\Ί����\X��X�[��[\���[Y\��]\��Y�ؘJ�MK�MK�MK�MJX�X��ܛ�[��ؘJ�
+X�\�ܘ\X��۝[�[��]��Z[��[ۛ�L\\\��\�K�[��Y\�H[�[���\��[\�Q�]\��
+ܙY[���MN�X[��MQ��܈[X�\�ё���
+K������[�]�Y[�	��۝��H
+���Y[Ί���\�\���]H�\�H
+�LLM�
+K���H܈�[\�[Y]\�Z\�[�H�ܙ\�
+�ؘJ�MK�MK�MK��X
+K�^[��]H�]X�Z�\�^[��ؘJ�MK�MK�MK��JX����\�Y�]H�Y��H�ܙ\���X�H�ё����]�\���][�Hٙ��]��H
+���X�؛�\�	��Y[�Ί���\�X��X�[�]X\�H[�]�
+��[�Y��
+H�[Y�]Y�X�۝�\��X��Y�]\��X]\�[��ё����[[��]X�X��[�X�]ܜ˂������Y]�ܝݙ\�^\�	�ܛ���Z\�H
+��[[Y]�H�]X�\Ί���ܛ�\��Y�\��][ۈX\���
+
+�܈��X��]�H\YY��ܛ�\��و\��[XY�\�H�۝Z[�\��[��ؘJ�MK�MK�MK��JX��Z[��ܘ�HH\��ۛ�ZX�[[���[Y[�\�YY�K
