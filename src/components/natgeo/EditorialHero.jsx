@@ -52,7 +52,7 @@ export function EditorialHero({ onLaunchSimulation = () => {} }) {
         <div className="relative z-10 w-full flex flex-col justify-between pointer-events-none gap-6 lg:gap-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-4 lg:gap-8">
             <div className="lg:col-span-5">
-              <h1 className="text-6xl sm:text-8xl md:text-9xl xl:text-[13rem] font-black tracking-[-0.07em] leading-none text-[#F1F1F1] uppercase select-none drop-shadow-[0_8px_30px_rgba(0,0,0,0.9)]">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-none text-[#F1F1F1] uppercase select-none drop-shadow-[0_6px_20px_rgba(0,0,0,0.85)]">
                 Explore
               </h1>
             </div>
@@ -69,8 +69,8 @@ export function EditorialHero({ onLaunchSimulation = () => {} }) {
             </div>
 
             <div className="lg:col-span-5 text-left lg:text-right">
-              <h1 className="text-6xl sm:text-8xl md:text-9xl xl:text-[13rem] font-black tracking-[-0.07em] leading-none text-[#F1F1F1] uppercase select-none drop-shadow-[0_8px_30px_rgba(0,0,0,0.9)]">
-                the Unknown.
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-none text-[#F1F1F1] uppercase select-none drop-shadow-[0_6px_20px_rgba(0,0,0,0.85)]">
+                The Unknown.
               </h1>
             </div>
           </div>
