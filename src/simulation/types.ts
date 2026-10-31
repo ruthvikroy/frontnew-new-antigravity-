@@ -24,6 +24,10 @@ export interface SimulationState {
   isLoaded: boolean;
   loadingProgress: number;
   activeHoverBody: string | null;
+  isWarping: boolean;
+  flightVelocity: number;
+  setIsWarping: (warping: boolean) => void;
+  setFlightVelocity: (vel: number) => void;
   togglePlay: () => void;
   setOrbitalSpeed: (speed: number) => void;
   setFocusTarget: (target: FocusTarget) => void;

@@ -17,6 +17,7 @@ import { SpaceAudioEngine } from './components/AudioEngine.js';
 import { SimulationSeparationSection } from './components/SimulationSeparationSection.jsx';
 import { NatGeoHeader } from './components/natgeo/NatGeoHeader.jsx';
 import { EditorialHero } from './components/natgeo/EditorialHero.jsx';
+import { ScrollLockTextSection } from './components/natgeo/ScrollLockTextSection.jsx';
 import { ArticlesSection } from './components/natgeo/ArticlesSection.jsx';
 import { FeaturedContentSection } from './components/natgeo/FeaturedContentSection.jsx';
 import { ExpeditionsSection } from './components/natgeo/ExpeditionsSection.jsx';
@@ -180,8 +181,7 @@ export default function App() {
             setViewMode('simulation');
             playTelemetryBlip();
           }}
-          soundEnabled={soundEnabled}
-          onToggleSound={handleToggleSound}
+          onOpenMars={handleFocusMars}
         />
 
         <main>
@@ -191,6 +191,8 @@ export default function App() {
               playTelemetryBlip();
             }}
           />
+
+          <ScrollLockTextSection />
 
           <ArticlesSection
             onSelectArticle={(article) => {
@@ -294,8 +296,6 @@ export default function App() {
           setSyncScroll(!syncScroll);
           playTelemetryBlip();
         }}
-        soundEnabled={soundEnabled}
-        onToggleSound={handleToggleSound}
         onJumpToTop={handleJumpToTop}
         activeCount={filteredAndSortedPairs.length}
         onOpenDrive={() => setIsDriveOpen(true)}

@@ -3,13 +3,16 @@ Author: -REPLACE WITH YOUR NAME-
 OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: High-performance instanced background starfield and subtle deep space dust
 */
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useSimulationStore } from './simulationStore';
 import { PerformanceManager } from './PerformanceManager';
 
 export const StarField: React.FC = () => {
+  const pointsRef = useRef<THREE.Points>(null);
   const quality = useSimulationStore((state) => state.quality);
+  const isWarping = useSimulationStore((state) => state.isWarping);
   const config = PerformanceManager.getConfig(quality);
 
   const [positions, colors, sizes] = useMemo(() => {
@@ -42,8 +45,19 @@ export const StarField: React.FC = () => {
     return [pos, col, sz];
   }, [config.starCount]);
 
+  useFrame((_, delta) => {
+    if (!pointsRef.current) return;
+    const rotSpeed = isWarping ? 0.45 : 0.008;
+    pointsRef.current.rotation.y += rotSpeed * delta;
+    if (isWarping) {
+      pointsRef.current.scale.z = THREE.MathUtils.lerp(pointsRef.current.scale.z, 2.5, delta * 5);
+    } else {
+      pointsRef.current.scale.z = THREE.MathUtils.lerp(pointsRef.current.scale.z, 1.0, delta * 3);
+    }
+  });
+
   return (
-    <points>
+    <points ref={pointsRef}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"

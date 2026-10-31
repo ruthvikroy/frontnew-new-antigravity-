@@ -293,6 +293,15 @@ export function CelestialCanvas({
       }
     };
 
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.code === 'Digit1') onSelectBody('overview');
+      else if (e.code === 'Digit2') onSelectBody('earth');
+      else if (e.code === 'Digit3') onSelectBody('moon');
+      else if (e.code === 'Digit4') onSelectBody('mars');
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
     window.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
@@ -442,6 +451,7 @@ export function CelestialCanvas({
 
     return () => {
       cancelAnimationFrame(animId);
+      window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);

@@ -5,13 +5,11 @@ Description: Global header bar with navigation and 3D View mode switch
 */
 
 import React from 'react';
-import { ArrowLeftRight, Volume2, VolumeX, Cloud, Eye, Compass } from 'lucide-react';
+import { ArrowLeftRight, Cloud, Eye, Compass, Github } from 'lucide-react';
 
 export function Header({
   syncScroll,
   onToggleSyncScroll,
-  soundEnabled,
-  onToggleSound,
   onJumpToTop,
   activeCount,
   onOpenDrive,
@@ -132,19 +130,17 @@ export function Header({
             <span className="hidden lg:inline">Drive</span>
           </button>
 
-          {/* Audio Synthesizer Toggle */}
-          <button
-            onClick={onToggleSound}
-            className={`p-1.5 rounded border transition-colors cursor-pointer ${
-              soundEnabled
-                ? 'bg-[var(--chip)] text-[var(--accent)] border-[var(--accent)] shadow-[0_0_10px_rgba(170,136,255,0.25)]'
-                : 'bg-[var(--chip)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--text)] hover:border-[var(--muted)]'
-            }`}
-            title={`Audio: ${soundEnabled ? 'ON' : 'OFF'}`}
-            aria-label={`Toggle sound effects. Currently ${soundEnabled ? 'enabled' : 'disabled'}`}
+          {/* Mars Simulation GitHub Repo Link */}
+          <a
+            href="https://github.com/ruthvikroy/mars-simulation-"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-2.5 py-1.5 rounded border border-red-500/30 bg-red-950/40 text-red-300 hover:text-white hover:bg-red-900/60 font-mono transition-colors flex items-center gap-1.5 cursor-pointer text-xs"
+            title="Open Mars Simulation GitHub Repository"
           >
-            {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-          </button>
+            <Github className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">Mars Repo</span>
+          </a>
 
           {/* Sync Scroll Toggle */}
           <button

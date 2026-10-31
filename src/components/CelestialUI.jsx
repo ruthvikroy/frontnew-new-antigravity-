@@ -22,6 +22,8 @@ import {
   Layers,
   ChevronRight,
   Radio,
+  Github,
+  ExternalLink,
 } from 'lucide-react';
 import {
   APOLLO_LANDING_SITES,
@@ -165,6 +167,17 @@ export function CelestialUI({
               );
             })}
           </nav>
+
+          <a
+            href="https://github.com/ruthvikroy/mars-simulation-"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-2.5 py-1.5 rounded border border-red-500/40 bg-red-950/60 text-red-300 hover:text-white hover:bg-red-900 transition-all flex items-center gap-1.5 cursor-pointer text-[11px] font-bold"
+            title="Explore Mars Simulation Source Repository on GitHub"
+          >
+            <Github size={13} />
+            <span className="hidden sm:inline">MARS REPO</span>
+          </a>
 
           <button
             onClick={() => {
@@ -642,6 +655,21 @@ export function CelestialUI({
                 </div>
               ))}
             </div>
+
+            {viewMode === 'mars' && (
+              <div className="border-t border-[var(--line)] pt-3 mt-3">
+                <a
+                  href="https://github.com/ruthvikroy/mars-simulation-"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded border border-red-500/50 bg-red-950/70 hover:bg-red-900 text-red-200 text-xs font-bold transition-all shadow-[0_0_12px_rgba(239,68,68,0.25)]"
+                >
+                  <Github size={13} />
+                  <span>MARS SIMULATION REPOSITORY</span>
+                  <ExternalLink size={11} className="opacity-70" />
+                </a>
+              </div>
+            )}
           </aside>
         )}
 

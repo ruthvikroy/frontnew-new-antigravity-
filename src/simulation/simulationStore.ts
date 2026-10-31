@@ -18,7 +18,11 @@ export const useSimulationStore = create<SimulationState>((set) => ({
   isLoaded: false,
   loadingProgress: 0,
   activeHoverBody: null,
+  isWarping: false,
+  flightVelocity: 29.78,
 
+  setIsWarping: (warping: boolean) => set({ isWarping: warping }),
+  setFlightVelocity: (vel: number) => set({ flightVelocity: vel }),
   togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
   setOrbitalSpeed: (speed: number) => set({ orbitalSpeed: Math.max(0.1, Math.min(10.0, speed)) }),
   setFocusTarget: (target: FocusTarget) => set({ focusTarget: target }),

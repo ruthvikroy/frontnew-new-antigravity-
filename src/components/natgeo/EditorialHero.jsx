@@ -4,7 +4,7 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: Cinematic Space Punks editorial hero with realistic Earth and three-part split typography
 */
 import React, { useState } from 'react';
-import { ArrowDown, Compass, Globe, Sparkles } from 'lucide-react';
+import { ArrowDown, Compass, Globe, Sparkles, Github, ExternalLink } from 'lucide-react';
 import { SpaceScene } from '../../simulation/SpaceScene';
 
 export function EditorialHero({ onLaunchSimulation = () => {} }) {
@@ -21,24 +21,24 @@ export function EditorialHero({ onLaunchSimulation = () => {} }) {
           <div className="md:col-span-4 flex flex-col gap-1">
             <div className="flex items-center gap-2 text-[#F5D000] text-[10px] font-mono-code uppercase tracking-[0.25em]">
               <img src="/assets/space-punks-logo.png" alt="Logo" className="w-4 h-4 rounded-full object-cover shrink-0 shadow-[0_0_8px_rgba(245,208,0,0.3)]" />
-              <span>01 / TEAM SPACE PUNKS</span>
+              <span>NASA PDS • USGS ASTROGEOLOGY ARCHIVE</span>
             </div>
             <p className="text-xs font-mono-code uppercase tracking-wider text-[#F1F1F1] font-semibold">
-              ASTRODASHBOARD // EXPLORE THE COSMOS
+              EARTH &amp; MOON TERRESTRIAL ANALOGS // TEAM SPACE PUNKS
             </p>
           </div>
 
           <div className="md:col-span-5 border-l border-white/10 pl-0 md:pl-6">
             <p className="text-xs text-[#888888] leading-relaxed max-w-xl font-editorial">
-              We chronicle the raw thermodynamic forces shaping our reality — from abyssal ocean rifts and tectonic collision zones to the cratered deserts of Mars and interstellar asteroids adrift in the deep solar gravitational well.
+              Connecting extreme terrestrial geological landscapes to the cratered highlands and basaltic plains of the Moon. Grounded in peer-reviewed orbital telemetry, Apollo surface logs, and USGS Astrogeology research to prepare humanity for deep space exploration.
             </p>
           </div>
 
           <div className="md:col-span-3 flex md:justify-end items-start">
             <div className="flex flex-col md:items-end text-[10px] font-mono-code text-[#888888] gap-0.5">
-              <span className="text-[#F1F1F1] font-bold">23°26'14" N • 149°03'42" E</span>
-              <span>EARTH-MOON-MARS SYSTEM</span>
-              <span className="text-[#F5D000]">SOL 4288 // ORBITAL TIME</span>
+              <span className="text-[#F1F1F1] font-bold">384,400 KM • MEAN LUNAR DISTANCE</span>
+              <span>1.00g vs 0.165g GRAVITATIONAL DELTA</span>
+              <span className="text-[#F5D000]">07 ANALOG PAIRS // PEER-REVIEWED</span>
             </div>
           </div>
         </div>
@@ -98,6 +98,16 @@ export function EditorialHero({ onLaunchSimulation = () => {} }) {
             >
               03 • MARS SYSTEM 3D
             </button>
+            <span className="text-white/20 hidden md:inline">/</span>
+            <a
+              href="https://github.com/ruthvikroy/mars-simulation-"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:flex items-center gap-1.5 text-red-400 hover:text-white transition-colors"
+            >
+              <Github size={12} />
+              <span>MARS REPO</span>
+            </a>
           </div>
 
           <div className="flex items-center gap-4">

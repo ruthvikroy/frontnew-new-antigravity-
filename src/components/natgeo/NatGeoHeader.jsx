@@ -4,13 +4,11 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: Space Punks editorial header with branding and navigation
 */
 import React, { useState } from 'react';
-import { Search, Globe, Menu, X, Compass, Radio, Sparkles, Volume2, VolumeX } from 'lucide-react';
+import { Search, Globe, Menu, X, Compass, Radio, Sparkles, Github } from 'lucide-react';
 
 export function NatGeoHeader({
   onLaunchSimulation = () => {},
   onOpenMars = () => {},
-  soundEnabled = false,
-  onToggleSound = () => {},
   activeSection = 'hero',
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -70,18 +68,16 @@ export function NatGeoHeader({
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={onToggleSound}
-            className="p-2 border border-white/10 hover:border-white/20 text-[#888888] hover:text-[#F1F1F1] bg-[#0A0A0A] transition-colors"
-            title={soundEnabled ? 'Mute Deep Space Audio' : 'Enable Atmospheric Audio'}
-            aria-label="Toggle Sound"
+          <a
+            href="https://github.com/ruthvikroy/mars-simulation-"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 border border-red-500/30 bg-red-950/40 hover:bg-red-900/60 text-red-300 hover:text-white font-mono-code text-[11px] font-semibold tracking-wider uppercase transition-colors"
+            title="Mars Simulation GitHub Repository"
           >
-            {soundEnabled ? (
-              <Volume2 size={14} className="text-[#F5D000]" />
-            ) : (
-              <VolumeX size={14} />
-            )}
-          </button>
+            <Github size={13} />
+            <span>MARS REPO</span>
+          </a>
 
           <button
             onClick={() => setSearchOpen(!searchOpen)}
@@ -150,6 +146,15 @@ export function NatGeoHeader({
           </div>
 
           <div className="pt-2 flex flex-col gap-2">
+            <a
+              href="https://github.com/ruthvikroy/mars-simulation-"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 border border-red-500/40 bg-red-950/40 text-red-300 font-mono-code text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2"
+            >
+              <Github size={14} />
+              <span>MARS SIMULATION REPO</span>
+            </a>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
