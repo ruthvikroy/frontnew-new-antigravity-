@@ -47,6 +47,7 @@ export const SpaceScene: React.FC<SpaceSceneProps> = ({
   const quality = useSimulationStore((state) => state.quality);
   const isLoaded = useSimulationStore((state) => state.isLoaded);
   const moonPositionRef = useRef(new THREE.Vector3(7.5, 0, 0));
+  const marsPositionRef = useRef(new THREE.Vector3(13.5, 0, 0));
 
   const config = PerformanceManager.getConfig(quality);
 
@@ -55,7 +56,7 @@ export const SpaceScene: React.FC<SpaceSceneProps> = ({
       {!isLoaded && <LoadingPlaceholder />}
 
       <Canvas
-        camera={{ position: [0, 3.5, 9.5], fov: 45, near: 0.1, far: 500 }}
+        camera={{ position: [0, 4.5, 14.5], fov: 45, near: 0.1, far: 600 }}
         dpr={config.dpr}
         gl={{
           antialias: true,
@@ -72,8 +73,14 @@ export const SpaceScene: React.FC<SpaceSceneProps> = ({
             onMoonPositionUpdate={(pos) => {
               moonPositionRef.current.copy(pos);
             }}
+            onMarsPositionUpdate={(pos) => {
+              marsPositionRef.current.copy(pos);
+            }}
           />
-          <CameraController moonPositionRef={moonPositionRef} />
+          <CameraController
+            moonPositionRef={moonPositionRef}
+            marsPositionRef={marsPositionRef}
+          />
         </Suspense>
       </Canvas>
 

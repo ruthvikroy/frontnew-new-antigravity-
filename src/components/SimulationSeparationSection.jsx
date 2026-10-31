@@ -106,18 +106,6 @@ export function SimulationSeparationSection({
             <button
               onClick={() => {
                 onPlayClick();
-                onOpenMars();
-              }}
-              className="px-2.5 py-1 rounded border border-amber-500/50 bg-amber-950/40 text-amber-300 hover:bg-amber-900/60 hover:text-white hover:border-amber-400 transition-colors flex items-center gap-1 cursor-pointer uppercase text-[11px]"
-              title="Launch Mars Exploration Simulation"
-            >
-              <div className="w-2 h-2 rounded-full bg-gradient-to-tr from-amber-600 to-red-500" />
-              <span>MARS SIMULATION</span>
-            </button>
-
-            <button
-              onClick={() => {
-                onPlayClick();
                 onTogglePause();
               }}
               className="px-2 py-1 rounded border border-[var(--line)] bg-[var(--chip)] text-[var(--muted)] hover:text-white transition-colors flex items-center gap-1 cursor-pointer uppercase text-[11px]"

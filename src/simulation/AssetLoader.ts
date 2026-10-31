@@ -12,6 +12,7 @@ export interface CelestialTextures {
   earthClouds: THREE.Texture;
   earthSpecular: THREE.Texture;
   moonSurface: THREE.Texture;
+  marsSurface: THREE.Texture;
 }
 
 const REMOTE_URLS = {
@@ -20,6 +21,7 @@ const REMOTE_URLS = {
   earthClouds: 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png',
   earthSpecular: 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg',
   moonSurface: 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/moon_1024.jpg',
+  marsSurface: '/assets/mars/mars_verified.png',
 };
 
 function createEarthDayCanvas(): THREE.CanvasTexture {
@@ -141,6 +143,49 @@ function createMoonSurfaceCanvas(): THREE.CanvasTexture {
   return tex;
 }
 
+function createMarsSurfaceCanvas(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    const grad = ctx.createLinearGradient(0, 0, 0, 256);
+    grad.addColorStop(0, '#c1440e');
+    grad.addColorStop(0.5, '#d6541f');
+    grad.addColorStop(1, '#a83709');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 512, 256);
+
+    ctx.fillStyle = '#6e2b10';
+    ctx.beginPath();
+    ctx.ellipse(220, 140, 65, 45, -0.2, 0, Math.PI * 2);
+    ctx.ellipse(320, 160, 80, 40, 0.15, 0, Math.PI * 2);
+    ctx.ellipse(120, 110, 50, 35, 0.1, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#e5733d';
+    ctx.beginPath();
+    ctx.arc(140, 100, 22, 0, Math.PI * 2);
+    ctx.arc(175, 125, 14, 0, Math.PI * 2);
+    ctx.arc(195, 155, 16, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(70, 20, 5, 0.35)';
+    for (let i = 0; i < 75; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random() * 512, Math.random() * 256, 1.5 + Math.random() * 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.fillStyle = '#f8f4f0';
+    ctx.fillRect(0, 0, 512, 14);
+    ctx.fillRect(0, 244, 512, 12);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 export class AssetLoader {
   private static instance: AssetLoader | null = null;
   private textures: CelestialTextures;
@@ -154,6 +199,7 @@ export class AssetLoader {
       earthClouds: createEarthCloudsCanvas(),
       earthSpecular: createEarthSpecularCanvas(),
       moonSurface: createMoonSurfaceCanvas(),
+      marsSurface: createMarsSurfaceCanvas(),
     };
     this.loadRemote();
   }
@@ -178,7 +224,7 @@ export class AssetLoader {
       this.loader.load(
         REMOTE_URLS[key],
         (loadedTex) => {
-          if (key === 'earthDay' || key === 'earthNight' || key === 'moonSurface') {
+          if (key === 'earthDay' || key === 'earthNight' || key === 'moonSurface' || key === 'marsSurface') {
             loadedTex.colorSpace = THREE.SRGBColorSpace;
           }
           loadedTex.generateMipmaps = true;

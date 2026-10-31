@@ -4,7 +4,7 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: TypeScript type definitions for unified Earth and Moon 3D orbital simulation
 */
 export type QualityLevel = 'high' | 'medium' | 'low';
-export type FocusTarget = 'system' | 'earth' | 'moon';
+export type FocusTarget = 'system' | 'earth' | 'moon' | 'mars';
 
 export interface CelestialCoordinates {
   x: number;

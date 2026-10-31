@@ -65,7 +65,7 @@ export const SimulationUI: React.FC<SimulationUIProps> = ({ embedded = false }) 
         </div>
 
         <div className="flex items-center gap-1.5 bg-[#050505]/85 backdrop-blur-md border border-white/10 p-1">
-          {(['system', 'earth', 'moon'] as FocusTarget[]).map((target) => (
+          {(['system', 'earth', 'moon', 'mars'] as FocusTarget[]).map((target) => (
             <button
               key={target}
               onClick={() => setFocusTarget(target)}

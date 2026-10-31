@@ -15,7 +15,6 @@ import { LunarExplorationSection } from './components/LunarExplorationSection.js
 import { Footer } from './components/Footer.jsx';
 import { SpaceAudioEngine } from './components/AudioEngine.js';
 import { SimulationSeparationSection } from './components/SimulationSeparationSection.jsx';
-import MarsApp from './mars/App.jsx';
 import { NatGeoHeader } from './components/natgeo/NatGeoHeader.jsx';
 import { EditorialHero } from './components/natgeo/EditorialHero.jsx';
 import { ArticlesSection } from './components/natgeo/ArticlesSection.jsx';
@@ -81,8 +80,10 @@ export default function App() {
     setHasInteracted(true);
   }, []);
 
-  const handleOpenMars = useCallback(() => {
-    setViewMode('mars');
+  const handleFocusMars = useCallback(() => {
+    setCelestialCamMode('mars');
+    setSelectedLandmarkId(null);
+    setViewMode('simulation');
     playTelemetryBlip();
   }, [playTelemetryBlip]);
 
@@ -171,17 +172,6 @@ export default function App() {
     if (preset.selectedLandmarkId !== undefined) setSelectedLandmarkId(preset.selectedLandmarkId);
   }, []);
 
-  if (viewMode === 'mars') {
-    return (
-      <MarsApp
-        onReturnToDashboard={() => {
-          setViewMode('editorial');
-          playTelemetryBlip();
-        }}
-      />
-    );
-  }
-
   if (viewMode === 'editorial') {
     return (
       <div className="min-h-screen w-full bg-[#050505] text-[#F1F1F1] selection:bg-[#F5D000] selection:text-black">
@@ -190,7 +180,6 @@ export default function App() {
             setViewMode('simulation');
             playTelemetryBlip();
           }}
-          onOpenMars={handleOpenMars}
           soundEnabled={soundEnabled}
           onToggleSound={handleToggleSound}
         />
@@ -225,10 +214,6 @@ export default function App() {
             }}
             onOpenGalleryModal={(gallery) => {
               setActiveGalleryModal(gallery);
-              playTelemetryBlip();
-            }}
-            onOpenMarsLab={() => {
-              setViewMode('mars');
               playTelemetryBlip();
             }}
           />
@@ -319,7 +304,6 @@ export default function App() {
           setViewMode(viewMode === 'dashboard' ? 'simulation' : 'dashboard');
           playTelemetryBlip();
         }}
-        onOpenMars={handleOpenMars}
         onReturnToEditorial={() => {
           setViewMode('editorial');
           playTelemetryBlip();
@@ -373,7 +357,6 @@ export default function App() {
               playTelemetryBlip();
             }}
             onPlayClick={playTelemetryBlip}
-            onOpenMars={handleOpenMars}
           />
 
           <HeroSection
@@ -479,7 +462,6 @@ export default function App() {
             setViewMode('editorial');
             playTelemetryBlip();
           }}
-          onOpenMars={handleOpenMars}
         />
       )}
 

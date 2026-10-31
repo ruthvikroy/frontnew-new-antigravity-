@@ -92,9 +92,12 @@ export function EditorialHero({ onLaunchSimulation = () => {} }) {
               02 • LUNAR HIGHLANDS
             </a>
             <span className="text-white/20">/</span>
-            <a href="#featured" className="text-[#888888] hover:text-[#F1F1F1] transition-colors">
-              03 • MARS MOLA RELIEF
-            </a>
+            <button
+              onClick={onLaunchSimulation}
+              className="text-[#888888] hover:text-[#F1F1F1] transition-colors cursor-pointer"
+            >
+              03 • MARS SYSTEM 3D
+            </button>
           </div>
 
           <div className="flex items-center gap-4">

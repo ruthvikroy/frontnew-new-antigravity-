@@ -189,18 +189,6 @@ export function CelestialUI({
           <button
             onClick={() => {
               onPlayClick();
-              onOpenMars();
-            }}
-            className="px-3 py-1.5 rounded border border-amber-500/50 bg-amber-950/60 text-amber-300 font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer text-[11px] hover:bg-amber-900/80 hover:text-white hover:border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]"
-            title="Switch to Mars 3D Planetary Simulation"
-          >
-            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-amber-600 via-orange-600 to-red-600" />
-            <span>MARS SIMULATION</span>
-          </button>
-
-          <button
-            onClick={() => {
-              onPlayClick();
               onReturnToDashboard();
             }}
             className="px-3 py-1.5 rounded border border-[var(--line)] bg-[var(--chip)]/90 text-[var(--muted)] hover:text-white hover:border-zinc-400 transition-colors flex items-center gap-1.5 cursor-pointer uppercase text-[11px]"

@@ -33,8 +33,8 @@ export function FeaturedContentSection({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 border-b border-white/10">
-          <div className="lg:col-span-7 border-b lg:border-b-0 lg:border-r border-white/10 p-6 sm:p-10 flex flex-col justify-between gap-6 group">
+        <div className="border-b border-white/10 p-6 sm:p-10 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 group">
+          <div className="flex-1 flex flex-col justify-between gap-6 w-full">
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between text-[10px] font-mono-code text-[#888888] tracking-widest uppercase">
                 <span className="text-[#F5D000] font-bold">FEATURED ARTICLE // ASTEROIDS</span>
@@ -50,22 +50,7 @@ export function FeaturedContentSection({
               </p>
             </div>
 
-            <div className="relative aspect-[16/9] w-full overflow-hidden border border-white/10 bg-[#080808]">
-              <img
-                src="/assets/aistudio/Asteroid_Bennu-1_f1af1811.jpeg"
-                alt="Asteroid floating in deep space against Jupiter orbital background"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-90 contrast-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute top-3 left-3 text-[9px] font-mono-code text-white bg-black/80 px-2 py-0.5 border border-white/20 uppercase tracking-widest">
-                TARGET: 514107 KAʻEPAOKAʻAWELA
-              </div>
-              <div className="absolute bottom-3 left-3 text-[10px] font-mono-code text-[#F1F1F1] bg-black/70 px-2 py-1 border border-white/10">
-                DR. MARCUS VANCE • PLANETARY DYNAMICS GROUP
-              </div>
-            </div>
-
-            <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-white/10">
+            <div className="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-white/10">
               <span className="text-[10px] font-mono-code text-[#888888] uppercase tracking-wider">
                 ORBIT INCLINATION: 163.0° • ECCENTRICITY: 0.38
               </span>
@@ -85,67 +70,18 @@ export function FeaturedContentSection({
             </div>
           </div>
 
-          <div className="lg:col-span-5 p-6 sm:p-10 bg-[#0A0A0A] flex flex-col justify-between gap-6 group">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between text-[10px] font-mono-code text-[#888888] tracking-widest uppercase">
-                <span className="text-red-400 font-bold">MULTI-PART SERIES // DOSSIER</span>
-                <span>VOL. 1 • 3 CHAPTERS</span>
-              </div>
-
-              <div className="flex items-baseline gap-3">
-                <h2 className="text-5xl sm:text-7xl font-black uppercase tracking-[-0.05em] text-[#F1F1F1] font-editorial leading-none">
-                  Mars.
-                </h2>
-                <span className="text-[11px] font-mono-code text-red-400 uppercase tracking-widest font-bold">
-                  AREOLOGY ARCHIVE
-                </span>
-              </div>
-
-              <p className="text-xs text-[#888888] leading-relaxed font-editorial">
-                From the 21-kilometer volcanic caldera of Olympus Mons to ancient river deltas at Jezero Crater, our comprehensive field dossier surveys the Red Planet’s geologic history, atmospheric loss, and subsurface hydration.
-              </p>
+          <div className="w-full lg:w-[46%] shrink-0 relative aspect-[16/10] overflow-hidden border border-white/10 bg-[#080808]">
+            <img
+              src="/assets/aistudio/Asteroid_Bennu-1_f1af1811.jpeg"
+              alt="Asteroid floating in deep space against Jupiter orbital background"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-90 contrast-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute top-3 left-3 text-[9px] font-mono-code text-white bg-black/80 px-2 py-0.5 border border-white/20 uppercase tracking-widest">
+              TARGET: 514107 KAʻEPAOKAʻAWELA
             </div>
-
-            <div className="relative aspect-[16/10] w-full overflow-hidden border border-white/10 bg-black">
-              <img
-                src="/assets/aistudio/32322_mars-curiosity-rover-msl-horizon-sky-self-portrait-PIA19808-full_d447c1a3.jpg"
-                alt="NASA Curiosity Rover on Martian terrain with Mount Sharp horizon"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter contrast-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
-              <div className="absolute top-3 right-3 text-[9px] font-mono-code text-red-400 bg-black/80 px-2 py-0.5 border border-red-500/30 uppercase tracking-widest">
-                GALE CRATER // 4.59° S
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2 border-t border-white/10 pt-4">
-              <div className="text-[10px] font-mono-code uppercase text-[#888888] tracking-widest mb-1 font-bold">
-                SUPPORTING SERIES CHAPTERS:
-              </div>
-              <div className="space-y-1.5 text-xs font-editorial">
-                <div className="p-2 border border-white/5 bg-[#050505] hover:border-white/20 transition-colors flex items-center justify-between cursor-pointer">
-                  <span className="text-[#F1F1F1] font-bold truncate">01 • The Subsurface Saline Lakes of Planum Australe</span>
-                  <span className="text-[10px] font-mono-code text-[#F5D000] shrink-0 ml-2">READ</span>
-                </div>
-                <div className="p-2 border border-white/5 bg-[#050505] hover:border-white/20 transition-colors flex items-center justify-between cursor-pointer">
-                  <span className="text-[#F1F1F1] font-bold truncate">02 • Perseverance at Neretva Vallis River Delta</span>
-                  <span className="text-[10px] font-mono-code text-[#F5D000] shrink-0 ml-2">READ</span>
-                </div>
-                <div className="p-2 border border-white/5 bg-[#050505] hover:border-white/20 transition-colors flex items-center justify-between cursor-pointer">
-                  <span className="text-[#F1F1F1] font-bold truncate">03 • Loss of the Magnetic Dynamo &amp; Solar Wind Erosion</span>
-                  <span className="text-[10px] font-mono-code text-[#F5D000] shrink-0 ml-2">READ</span>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <button
-                  onClick={onOpenMarsLab}
-                  className="w-full py-2.5 border border-red-500/50 bg-red-950/40 hover:bg-red-900/60 text-red-300 hover:text-white font-mono-code text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <Radio size={14} className="text-red-400" />
-                  <span>LAUNCH MARS DRIFT 3D LAB</span>
-                </button>
-              </div>
+            <div className="absolute bottom-3 left-3 text-[10px] font-mono-code text-[#F1F1F1] bg-black/70 px-2 py-1 border border-white/10">
+              DR. MARCUS VANCE • PLANETARY DYNAMICS GROUP
             </div>
           </div>
         </div>

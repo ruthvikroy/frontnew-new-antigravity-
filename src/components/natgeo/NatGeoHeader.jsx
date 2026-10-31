@@ -160,17 +160,6 @@ export function NatGeoHeader({
               <Globe size={14} />
               <span>OPEN SPACE SIMULATION</span>
             </button>
-
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenMars();
-              }}
-              className="w-full py-2.5 border border-white/10 bg-[#0A0A0A] text-[#F1F1F1] font-mono-code text-xs uppercase tracking-wider flex items-center justify-center gap-2"
-            >
-              <Radio size={14} className="text-red-400" />
-              <span>MARS DRIFT LAB</span>
-            </button>
           </div>
         </div>
       )}

@@ -110,19 +110,6 @@ export function Header({
           </button>
 
           <button
-            onClick={onOpenMars}
-            className={`px-3 py-1.5 rounded border transition-colors flex items-center gap-1.5 cursor-pointer font-mono ${
-              viewMode === 'mars'
-                ? 'bg-amber-950/60 text-amber-400 border-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
-                : 'bg-[var(--chip)] text-amber-400/90 border-amber-500/40 hover:text-amber-300 hover:border-amber-400'
-            }`}
-            title="Mars Simulation"
-          >
-            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-amber-600 via-orange-600 to-red-600 shadow-sm" />
-            <span className="hidden sm:inline">Mars Simulation</span>
-          </button>
-
-          <button
             onClick={onToggleViewMode}
             className={`px-3 py-1.5 rounded border transition-colors flex items-center gap-1.5 cursor-pointer font-mono ${
               viewMode === 'simulation'

@@ -38,7 +38,7 @@ export function NatGeoFooter({ onLaunchSimulation = () => {} }) {
               </span>
               <a href="#hero" className="hover:text-[#F1F1F1] transition-colors">EARTH DISPATCH</a>
               <a href="#articles" className="hover:text-[#F1F1F1] transition-colors">LUNAR CARTOGRAPHY</a>
-              <a href="#featured" className="hover:text-[#F1F1F1] transition-colors">MARS ROVER LAB</a>
+              <button onClick={onLaunchSimulation} className="text-left hover:text-[#F1F1F1] transition-colors cursor-pointer">3D MARS ORBIT</button>
               <a href="#expeditions" className="hover:text-[#F1F1F1] transition-colors">GLOBAL ATLAS</a>
             </div>
 
