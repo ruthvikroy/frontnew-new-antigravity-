@@ -59,6 +59,11 @@ export default function App() {
     isPiloting: false,
   });
 
+  const [marsTextureMode, setMarsTextureMode] = useState('global-mola');
+  const [marsCloudOpacity, setMarsCloudOpacity] = useState(0.65);
+  const [marsCloudDriftSpeed, setMarsCloudDriftSpeed] = useState(1.0);
+  const [marsDustIntensity, setMarsDustIntensity] = useState(0.42);
+
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isDriveOpen, setIsDriveOpen] = useState(false);
   const audioEngineRef = useRef(null);
@@ -255,9 +260,9 @@ export default function App() {
         showLandingSites={showLandingSites}
         resetTrigger={resetTrigger}
         selectedLandmarkId={selectedLandmarkId}
-        onSelectLandmarkId={(id) => {
+        onSelectLandmarkId={(id, body = 'moon') => {
           setSelectedLandmarkId(id);
-          setCelestialCamMode('moon');
+          setCelestialCamMode(body);
           setViewMode('simulation');
           playTelemetryBlip();
         }}
@@ -269,6 +274,10 @@ export default function App() {
         }}
         onUserInteracted={handleUserInteracted}
         onFlightTelemetry={setFlightTelemetry}
+        marsTextureMode={marsTextureMode}
+        marsCloudOpacity={marsCloudOpacity}
+        marsCloudDriftSpeed={marsCloudDriftSpeed}
+        marsDustIntensity={marsDustIntensity}
       />
 
       <Header
@@ -444,6 +453,14 @@ export default function App() {
             playTelemetryBlip();
           }}
           flightTelemetry={flightTelemetry}
+          marsTextureMode={marsTextureMode}
+          setMarsTextureMode={setMarsTextureMode}
+          marsCloudOpacity={marsCloudOpacity}
+          setMarsCloudOpacity={setMarsCloudOpacity}
+          marsCloudDriftSpeed={marsCloudDriftSpeed}
+          setMarsCloudDriftSpeed={setMarsCloudDriftSpeed}
+          marsDustIntensity={marsDustIntensity}
+          setMarsDustIntensity={setMarsDustIntensity}
         />
       )}
 

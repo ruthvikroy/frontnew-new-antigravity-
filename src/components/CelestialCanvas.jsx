@@ -1,18 +1,12 @@
-/*
-Author: -REPLACE WITH YOUR NAME-
-OS support: -REPLACE WITH YOUR OS SUPPORT-
-Description: WebGL canvas for Earth, Moon and Mars 3D simulation with 6-DOF game dynamics and authentic Mars textures
-*/
-
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { loadCelestialTextures } from '../celestial/textures.js';
-import { createStarField } from '../celestial/starfield.js';
 import { createEarthSystem } from '../celestial/earth.js';
 import { createMoonSystem } from '../celestial/moon.js';
 import { createMarsSystem } from '../celestial/mars.js';
-import { ALL_LUNAR_LOCATIONS, LUNAR_LOCATIONS_MAP } from '../data/lunarLandmarks.js';
-import { selenographicToCartesian } from '../utils/orbitalMath.js';
+import { createStarField } from '../celestial/starfield.js';
+import { loadCelestialTextures } from '../celestial/textures.js';
+import { ALL_LUNAR_LOCATIONS, LUNAR_LOCATIONS_MAP, selenographicToCartesian } from '../data/lunarLandmarks.js';
+import { MARS_LANDMARKS, MARS_LOCATIONS_MAP, areographicToCartesian } from '../data/marsLandmarks.js';
 
 export function CelestialCanvas({
   viewMode = 'overview',
@@ -25,19 +19,12 @@ export function CelestialCanvas({
   onSelectBody = () => {},
   onUserInteracted = () => {},
   onFlightTelemetry = () => {},
+  marsTextureMode = 'global-mola',
+  marsCloudOpacity = 0.65,
+  marsCloudDriftSpeed = 1.0,
+  marsDustIntensity = 0.42,
 }) {
-  const canvasRef = useRef(null);
-  const interactionRef = useRef(onUserInteracted);
-  interactionRef.current = onUserInteracted;
-
-  const onSelectBodyRef = useRef(onSelectBody);
-  onSelectBodyRef.current = onSelectBody;
-
-  const onSelectLandmarkRef = useRef(onSelectLandmarkId);
-  onSelectLandmarkRef.current = onSelectLandmarkId;
-
-  const onFlightTelemetryRef = useRef(onFlightTelemetry);
-  onFlightTelemetryRef.current = onFlightTelemetry;
+  const mountRef = useRef(null);
 
   const viewModeRef = useRef(viewMode);
   viewModeRef.current = viewMode;
@@ -51,41 +38,75 @@ export function CelestialCanvas({
   const showLandingSitesRef = useRef(showLandingSites);
   showLandingSitesRef.current = showLandingSites;
 
+  const onSelectLandmarkRef = useRef(onSelectLandmarkId);
+  onSelectLandmarkRef.current = onSelectLandmarkId;
+
+  const onSelectBodyRef = useRef(onSelectBody);
+  onSelectBodyRef.current = onSelectBody;
+
+  const onFlightTelemetryRef = useRef(onFlightTelemetry);
+  onFlightTelemetryRef.current = onFlightTelemetry;
+
+  const marsTextureModeRef = useRef(marsTextureMode);
+  marsTextureModeRef.current = marsTextureMode;
+
+  const marsCloudOpacityRef = useRef(marsCloudOpacity);
+  marsCloudOpacityRef.current = marsCloudOpacity;
+
+  const marsCloudDriftSpeedRef = useRef(marsCloudDriftSpeed);
+  marsCloudDriftSpeedRef.current = marsCloudDriftSpeed;
+
+  const marsDustIntensityRef = useRef(marsDustIntensity);
+  marsDustIntensityRef.current = marsDustIntensity;
+
+  const hasInteractedRef = useRef(false);
+  const interactionRef = useRef(onUserInteracted);
+  interactionRef.current = onUserInteracted;
+
+  const resetTriggerRef = useRef(resetTrigger);
   const landmarkIdRef = useRef(selectedLandmarkId);
   landmarkIdRef.current = selectedLandmarkId;
 
-  const resetTriggerRef = useRef(resetTrigger);
+  // Dedicated refs to dynamically update Mars when props change
+  const marsSystemRef = useRef(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (marsSystemRef.current) {
+      marsSystemRef.current.setTextureMode(marsTextureMode);
+    }
+  }, [marsTextureMode]);
+
+  useEffect(() => {
+    if (marsSystemRef.current) {
+      marsSystemRef.current.setCloudOpacity(marsCloudOpacity);
+    }
+  }, [marsCloudOpacity]);
+
+  useEffect(() => {
+    if (marsSystemRef.current) {
+      marsSystemRef.current.setCloudDriftSpeed(marsCloudDriftSpeed);
+    }
+  }, [marsCloudDriftSpeed]);
+
+  useEffect(() => {
+    if (marsSystemRef.current) {
+      marsSystemRef.current.setDustIntensity(marsDustIntensity);
+    }
+  }, [marsDustIntensity]);
+
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
 
     let width = window.innerWidth;
     let height = window.innerHeight;
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-      powerPreference: 'high-performance',
-      alpha: false,
-      preserveDrawingBuffer: true,
-    });
-    renderer.setClearColor(0x020306, 1.0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-    renderer.setSize(width, height);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-    // Scene & Camera
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 2000);
+    scene.fog = new THREE.FogExp2(0x020308, 0.0035);
 
-    // Initial Overview composition
-    const baseOverviewPos = new THREE.Vector3(0.5, 0.25, 4.0);
-    const currentCamPos = baseOverviewPos.clone();
-    const targetCamPos = baseOverviewPos.clone();
+    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 1000);
+    const currentCamPos = new THREE.Vector3(0.8, 0.45, 5.2);
+    const targetCamPos = new THREE.Vector3(0.8, 0.45, 5.2);
     const currentLookAt = new THREE.Vector3(0.35, 0, 0);
     const targetLookAt = new THREE.Vector3(0.35, 0, 0);
 
@@ -94,13 +115,26 @@ export function CelestialCanvas({
 
     // Primary Solar Directional Light
     const sunDirection = new THREE.Vector3(6.5, 2.5, 5.0).normalize();
-    const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 2.8);
     sunLight.position.copy(sunDirection.clone().multiplyScalar(100));
     scene.add(sunLight);
 
     // Space ambient fill
-    const ambientLight = new THREE.AmbientLight(0x080c14, 0.2);
+    const ambientLight = new THREE.AmbientLight(0x0d121f, 0.38);
     scene.add(ambientLight);
+
+    // Dynamic Moon Surface Lighting System
+    // 1. Earthshine Light: Reflected sunlight from Earth onto Moon (soft cool azure)
+    const earthshineLight = new THREE.DirectionalLight(0x5aa8ff, 1.25);
+    scene.add(earthshineLight);
+
+    // 2. Dynamic Lunar Key Light: grazing directional light for dramatic crater rims & maria depth
+    const lunarKeyLight = new THREE.DirectionalLight(0xfff7ed, 1.75);
+    scene.add(lunarKeyLight);
+
+    // 3. Dynamic Lunar Rim Light: crisp silhouette separation against deep void
+    const lunarRimLight = new THREE.DirectionalLight(0x93c5fd, 0.7);
+    scene.add(lunarRimLight);
 
     // Starfield & Cosmic Nebula
     const starfield = createStarField(width <= 768 ? 2200 : 3800);
@@ -119,62 +153,15 @@ export function CelestialCanvas({
 
     const mars = createMarsSystem(textures, sunDirection);
     mars.mesh.userData = { bodyId: 'mars' };
+    marsSystemRef.current = mars;
     scene.add(mars.group);
     scene.add(mars.orbitLine);
 
-    const landmarkGroup = new THREE.Group();
-    const moonR = 0.32;
-
-    for (const lm of ALL_LUNAR_LOCATIONS) {
-      const coords = selenographicToCartesian(
-        lm.selenographic.latitudeDeg,
-        lm.selenographic.longitudeDeg,
-        moonR
-      );
-      const posVec = new THREE.Vector3(coords.x, coords.y, coords.z);
-      const isApollo = lm.category === 'apollo';
-      const isRobotic = lm.category === 'robotic';
-      const color = lm.pinColor || (isApollo ? 0xf59e0b : isRobotic ? 0x10b981 : 0x38bdf8);
-
-      const pinMat = new THREE.MeshBasicMaterial({
-        color,
-        transparent: true,
-        opacity: isApollo ? 0.95 : 0.8,
-      });
-
-      const pinHeight = isApollo ? 0.045 : 0.032;
-      const pin = new THREE.Mesh(
-        new THREE.CylinderGeometry(isApollo ? 0.0025 : 0.0018, 0.001, pinHeight, 6),
-        pinMat
-      );
-      pin.position.copy(posVec).multiplyScalar(1.03);
-      pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), posVec.clone().normalize());
-      pin.userData = { landmarkId: lm.id };
-
-      const ring = new THREE.Mesh(
-        new THREE.RingGeometry(isApollo ? 0.01 : 0.006, isApollo ? 0.018 : 0.012, 16),
-        pinMat
-      );
-      ring.position.copy(posVec).multiplyScalar(1.008);
-      ring.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), posVec.clone().normalize());
-      ring.userData = { landmarkId: lm.id };
-
-      landmarkGroup.add(pin);
-      landmarkGroup.add(ring);
-
-      if (isApollo) {
-        const dot = new THREE.Mesh(
-          new THREE.SphereGeometry(0.0035, 8, 8),
-          new THREE.MeshBasicMaterial({ color: 0xfffbeb })
-        );
-        dot.position.copy(posVec).multiplyScalar(1.07);
-        dot.userData = { landmarkId: lm.id };
-        landmarkGroup.add(dot);
-      }
-    }
-    moon.mesh.add(landmarkGroup);
-
-
+    // Initialize Mars with active props
+    mars.setTextureMode(marsTextureModeRef.current);
+    mars.setCloudOpacity(marsCloudOpacityRef.current);
+    mars.setCloudDriftSpeed(marsCloudDriftSpeedRef.current);
+    mars.setDustIntensity(marsDustIntensityRef.current);
 
     // Interaction & Game Dynamic Flight Controls
     let isDragging = false;
@@ -230,30 +217,42 @@ export function CelestialCanvas({
     const handlePointerUp = (e) => {
       if (isDragging && e) {
         const moveDist = Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY);
-        if (moveDist < 7) {
+        if (moveDist < 8) {
           const mouseRay = new THREE.Vector2(
             (e.clientX / window.innerWidth) * 2.0 - 1.0,
             -(e.clientY / window.innerHeight) * 2.0 + 1.0
           );
           raycaster.setFromCamera(mouseRay, camera);
-          const intersects = raycaster.intersectObjects(landmarkGroup.children, true);
+
+          // Raycast all marked checkpoints (Moon + Mars)
+          const allCheckpoints = [
+            ...moon.landmarkGroup.children,
+            ...mars.landmarkGroup.children,
+          ];
+          const intersects = raycaster.intersectObjects(allCheckpoints, true);
+
           if (intersects.length > 0) {
             for (const hit of intersects) {
               const hitId = hit.object?.userData?.landmarkId;
+              const bodyId = hit.object?.userData?.bodyId || 'moon';
               if (hitId) {
                 isPiloting = false;
-                onSelectLandmarkRef.current(hitId);
-                break;
+                onSelectLandmarkRef.current(hitId, bodyId);
+                return;
               }
             }
-          } else {
-            const bodyHits = raycaster.intersectObjects([mars.mesh, earth.surfaceMesh, moon.mesh], true);
-            if (bodyHits.length > 0) {
-              const bodyId = bodyHits[0].object?.userData?.bodyId;
-              if (bodyId) {
-                isPiloting = false;
-                onSelectBodyRef.current(bodyId);
-              }
+          }
+
+          // Raycast planetary bodies
+          const bodyHits = raycaster.intersectObjects(
+            [mars.mesh, earth.surfaceMesh, moon.mesh],
+            true
+          );
+          if (bodyHits.length > 0) {
+            const bodyId = bodyHits[0].object?.userData?.bodyId;
+            if (bodyId) {
+              isPiloting = false;
+              onSelectBodyRef.current(bodyId);
             }
           }
         }
@@ -276,12 +275,27 @@ export function CelestialCanvas({
       }
     };
 
-    // Keyboard Game Dynamics: WASD, Q/E, Shift, Space, R, Digits
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       keysDown[e.code] = true;
 
-      if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE', 'Space', 'ShiftLeft', 'ShiftRight', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+      if (
+        [
+          'KeyW',
+          'KeyA',
+          'KeyS',
+          'KeyD',
+          'KeyQ',
+          'KeyE',
+          'Space',
+          'ShiftLeft',
+          'ShiftRight',
+          'ArrowUp',
+          'ArrowDown',
+          'ArrowLeft',
+          'ArrowRight',
+        ].includes(e.code)
+      ) {
         interactionRef.current();
         e.preventDefault();
       }
@@ -291,10 +305,19 @@ export function CelestialCanvas({
         shipVelocity.set(0, 0, 0);
       }
 
-      if (e.code === 'Digit1') { isPiloting = false; onSelectBodyRef.current('overview'); }
-      else if (e.code === 'Digit2') { isPiloting = false; onSelectBodyRef.current('earth'); }
-      else if (e.code === 'Digit3') { isPiloting = false; onSelectBodyRef.current('moon'); }
-      else if (e.code === 'Digit4') { isPiloting = false; onSelectBodyRef.current('mars'); }
+      if (e.code === 'Digit1') {
+        isPiloting = false;
+        onSelectBodyRef.current('overview');
+      } else if (e.code === 'Digit2') {
+        isPiloting = false;
+        onSelectBodyRef.current('earth');
+      } else if (e.code === 'Digit3') {
+        isPiloting = false;
+        onSelectBodyRef.current('moon');
+      } else if (e.code === 'Digit4') {
+        isPiloting = false;
+        onSelectBodyRef.current('mars');
+      }
     };
 
     const handleKeyUp = (e) => {
@@ -321,7 +344,15 @@ export function CelestialCanvas({
     };
     window.addEventListener('resize', handleResize);
 
-    // Animation Loop with 6-DOF Flight Dynamics
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(width, height);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    container.appendChild(renderer.domElement);
+
+    // Animation Loop
     let animId;
     let lastTime = performance.now();
     let accumulatedTime = 0;
@@ -335,7 +366,6 @@ export function CelestialCanvas({
         accumulatedTime += dt;
       }
 
-      // Check reset trigger
       if (resetTriggerRef.current !== resetTrigger) {
         resetTriggerRef.current = resetTrigger;
         orbitRotationX = 0;
@@ -347,34 +377,63 @@ export function CelestialCanvas({
         gazeTarget.set(0, 0);
       }
 
-      // Apply drag momentum with smooth friction
       orbitRotationY += rotationVelocityY;
       orbitRotationX += rotationVelocityX;
       rotationVelocityX *= 0.92;
       rotationVelocityY *= 0.92;
 
-      // Smooth gaze tracking
       currentGaze.lerp(gazeTarget, 0.055);
 
       starfield.update(accumulatedTime);
       earth.update(dt, camera, isPausedRef.current);
-      moon.update(dt, isPausedRef.current);
-      mars.update(dt, isPausedRef.current);
-      moon.setOrbitVisibility(showOrbitsRef.current);
-      mars.setOrbitVisibility(showOrbitsRef.current);
-      landmarkGroup.visible = showLandingSitesRef.current;
-
-
 
       const mode = viewModeRef.current;
       const currentLandmark = landmarkIdRef.current;
+
+      moon.update(dt, isPausedRef.current, currentLandmark);
+      mars.update(dt, isPausedRef.current, currentLandmark);
+
+      moon.setOrbitVisibility(showOrbitsRef.current);
+      mars.setOrbitVisibility(showOrbitsRef.current);
+
+      moon.setLandmarksVisibility(showLandingSitesRef.current);
+      mars.setLandmarksVisibility(showLandingSitesRef.current);
+
       const moonPos = moon.getPosition();
       const marsPos = mars.getPosition();
+
+      // Dynamic Moon Surface Lighting Updates
+      earthshineLight.position.copy(earth.group.position);
+      earthshineLight.target = moon.mesh;
+
+      if (mode === 'moon' || LUNAR_LOCATIONS_MAP.has(currentLandmark)) {
+        // Dramatic lunar key light grazing crater rims
+        lunarKeyLight.position.set(
+          moonPos.x + 1.2,
+          moonPos.y + 0.8,
+          moonPos.z + 1.4
+        );
+        lunarKeyLight.target = moon.mesh;
+        lunarKeyLight.intensity = 2.4;
+
+        lunarRimLight.position.set(
+          moonPos.x - 1.2,
+          moonPos.y + 0.3,
+          moonPos.z - 1.2
+        );
+        lunarRimLight.target = moon.mesh;
+        lunarRimLight.intensity = 0.95;
+      } else {
+        lunarKeyLight.position.set(moonPos.x + 1.0, moonPos.y + 0.6, moonPos.z + 1.0);
+        lunarKeyLight.target = moon.mesh;
+        lunarKeyLight.intensity = 1.1;
+        lunarRimLight.intensity = 0.4;
+      }
 
       const parallaxX = mouseNorm.x * 0.12 + currentGaze.x;
       const parallaxY = -mouseNorm.y * 0.1 + currentGaze.y;
 
-      // 6-DOF Keyboard Thruster Game Dynamics
+      // 6-DOF Spacecraft Flight Dynamic Thrusters
       const forward = new THREE.Vector3();
       camera.getWorldDirection(forward);
       const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
@@ -424,14 +483,14 @@ export function CelestialCanvas({
         shipVelocity.multiplyScalar(0.972);
       }
 
-      // Dynamic FOV punch for Warp Speed
+      // Dynamic FOV for warp boost
       const targetFOV = isWarp && thrustActive ? 44 : 35;
       if (Math.abs(camera.fov - targetFOV) > 0.05) {
         camera.fov = THREE.MathUtils.lerp(camera.fov, targetFOV, 0.08);
         camera.updateProjectionMatrix();
       }
 
-      // Orbital Tracking vs Free Game Piloting Mode
+      // Camera Tracking Modes
       if (isPiloting) {
         targetCamPos.add(shipVelocity);
         targetLookAt.add(shipVelocity);
@@ -439,26 +498,28 @@ export function CelestialCanvas({
           targetCamPos.clampLength(0.6, 28);
         }
       } else if (currentLandmark) {
-        const lm = LUNAR_LOCATIONS_MAP.get(currentLandmark);
-        if (lm) {
-          const coords = selenographicToCartesian(
-            lm.selenographic.latitudeDeg,
-            lm.selenographic.longitudeDeg,
-            moonR
-          );
-          const localVec = new THREE.Vector3(coords.x, coords.y, coords.z);
-          localVec.applyEuler(moon.mesh.rotation);
-          const worldPos = moon.mesh.position.clone().add(localVec);
-          const normal = localVec.clone().normalize();
+        // Check if selected landmark is on Moon or Mars
+        const lunarLm = LUNAR_LOCATIONS_MAP.get(currentLandmark);
+        const marsLm = MARS_LOCATIONS_MAP.get(currentLandmark);
 
-          targetCamPos.copy(worldPos).add(normal.multiplyScalar(0.44));
-          targetCamPos.x += parallaxX * 0.12;
-          targetCamPos.y += parallaxY * 0.12;
-          targetLookAt.copy(worldPos);
-        } else {
-          const offset = new THREE.Vector3(0.35, 0.15, 0.55);
-          targetCamPos.copy(moonPos).add(offset);
-          targetLookAt.copy(moonPos);
+        if (lunarLm) {
+          const worldPos = moon.getLandmarkPosition(currentLandmark);
+          if (worldPos) {
+            const normal = worldPos.clone().sub(moonPos).normalize();
+            targetCamPos.copy(worldPos).add(normal.multiplyScalar(0.48));
+            targetCamPos.x += parallaxX * 0.12;
+            targetCamPos.y += parallaxY * 0.12;
+            targetLookAt.copy(worldPos);
+          }
+        } else if (marsLm) {
+          const worldPos = mars.getLandmarkPosition(currentLandmark);
+          if (worldPos) {
+            const normal = worldPos.clone().sub(marsPos).normalize();
+            targetCamPos.copy(worldPos).add(normal.multiplyScalar(0.85));
+            targetCamPos.x += parallaxX * 0.16;
+            targetCamPos.y += parallaxY * 0.16;
+            targetLookAt.copy(worldPos);
+          }
         }
       } else if (mode === 'overview') {
         const radius = 5.2;
@@ -477,7 +538,7 @@ export function CelestialCanvas({
         );
         targetLookAt.set(currentGaze.x * 0.3, currentGaze.y * 0.3, 0);
       } else if (mode === 'moon') {
-        const offset = new THREE.Vector3(0.5, 0.2, 0.8);
+        const offset = new THREE.Vector3(0.45, 0.2, 0.85);
         targetCamPos.copy(moonPos).add(offset);
         targetCamPos.x += parallaxX * 0.25;
         targetCamPos.y += parallaxY * 0.25;
@@ -485,13 +546,13 @@ export function CelestialCanvas({
         targetLookAt.x += currentGaze.x * 0.2;
         targetLookAt.y += currentGaze.y * 0.2;
       } else if (mode === 'mars') {
-        const offset = new THREE.Vector3(0.55, 0.25, 1.25);
+        const offset = new THREE.Vector3(0.55, 0.28, 1.35);
         targetCamPos.copy(marsPos).add(offset);
-        targetCamPos.x += parallaxX * 0.25;
-        targetCamPos.y += parallaxY * 0.25;
+        targetCamPos.x += parallaxX * 0.28;
+        targetCamPos.y += parallaxY * 0.28;
         targetLookAt.copy(marsPos);
-        targetLookAt.x += currentGaze.x * 0.2;
-        targetLookAt.y += currentGaze.y * 0.2;
+        targetLookAt.x += currentGaze.x * 0.25;
+        targetLookAt.y += currentGaze.y * 0.25;
       } else if (mode === 'orbit') {
         targetCamPos.set(0.5 + parallaxX, 6.2 + orbitRotationX + parallaxY, 4.6);
         targetLookAt.set(0.6 + currentGaze.x * 0.4, currentGaze.y * 0.4, 0);
@@ -562,15 +623,16 @@ export function CelestialCanvas({
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('resize', handleResize);
 
-      starfield.dispose();
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
       earth.dispose();
       moon.dispose();
       mars.dispose();
-      renderer.dispose();
+      starfield.dispose();
     };
   }, []);
 
-  return <canvas ref={canvasRef} id="space" className="w-full h-full block" />;
+  return <div ref={mountRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing" />;
 }
-
-/* --- End of CelestialCanvas.jsx --- */
