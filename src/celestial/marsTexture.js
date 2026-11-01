@@ -342,6 +342,17 @@ export function createMarsTextures(isSoftwareGl = false) {
   };
   shadedImg.src = '/assets/mars/mars_shaded_3x.png';
 
+  // Blend with NASA Global Mars 360 Mosaic from uploaded zip assets
+  const nasaMosaic = new Image();
+  nasaMosaic.crossOrigin = 'anonymous';
+  nasaMosaic.onload = () => {
+    ctx.save();
+    ctx.globalAlpha = 0.45;
+    ctx.drawImage(nasaMosaic, 0, 0, width, height);
+    ctx.restore();
+    albedoTexture.needsUpdate = true;
+  };
+  nasaMosaic.src = '/assets/aistudio/1-mars-nasa-gov-jpg_e2a27276.webp';
   const albedoTexture = new THREE.CanvasTexture(albedoCanvas);
   albedoTexture.colorSpace = THREE.SRGBColorSpace;
   albedoTexture.wrapS = THREE.RepeatWrapping;
@@ -361,3 +372,4 @@ export function createMarsTextures(isSoftwareGl = false) {
 
   return { albedoTexture, bumpTexture };
 }
+

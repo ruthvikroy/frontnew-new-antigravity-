@@ -174,35 +174,7 @@ export function CelestialCanvas({
     }
     moon.mesh.add(landmarkGroup);
 
-    const debrisGroup = new THREE.Group();
-    const debrisList = [];
-    const debrisMat = new THREE.MeshStandardMaterial({
-      color: 0x444955,
-      roughness: 0.95,
-      metalness: 0.05,
-    });
 
-    for (let i = 0; i < 9; i++) {
-      const geom = new THREE.DodecahedronGeometry(0.03 + Math.random() * 0.04, 1);
-      const mesh = new THREE.Mesh(geom, debrisMat);
-      const angle = (i / 9) * Math.PI * 2 + Math.random() * 0.4;
-      const r = 2.9 + Math.random() * 0.8;
-      const y = (Math.random() - 0.5) * 0.4;
-      mesh.position.set(Math.cos(angle) * r, y, Math.sin(angle) * r);
-      debrisGroup.add(mesh);
-      debrisList.push({
-        mesh,
-        angle,
-        r,
-        speed: 0.008 + Math.random() * 0.012,
-        rotSpeed: new THREE.Vector3(
-          Math.random() * 0.5,
-          Math.random() * 0.5,
-          Math.random() * 0.5
-        ),
-      });
-    }
-    scene.add(debrisGroup);
 
     // Interaction & Game Dynamic Flight Controls
     let isDragging = false;
@@ -392,15 +364,7 @@ export function CelestialCanvas({
       mars.setOrbitVisibility(showOrbitsRef.current);
       landmarkGroup.visible = showLandingSitesRef.current;
 
-      if (!isPausedRef.current) {
-        for (const deb of debrisList) {
-          deb.angle += dt * deb.speed;
-          deb.mesh.position.x = Math.cos(deb.angle) * deb.r;
-          deb.mesh.position.z = Math.sin(deb.angle) * deb.r;
-          deb.mesh.rotation.x += dt * deb.rotSpeed.x;
-          deb.mesh.rotation.y += dt * deb.rotSpeed.y;
-        }
-      }
+
 
       const mode = viewModeRef.current;
       const currentLandmark = landmarkIdRef.current;
