@@ -1,3 +1,4 @@
+import { createMarsTextures } from './marsTexture.js';
 import * as THREE from 'three';
 
 const TEXTURE_URLS = {
@@ -177,8 +178,7 @@ export function loadCelestialTextures() {
   const moonAlbedoFallback = new THREE.CanvasTexture(createFallbackMoonCanvas());
   moonAlbedoFallback.colorSpace = THREE.SRGBColorSpace;
 
-  const marsFallback = new THREE.CanvasTexture(createFallbackMarsCanvas());
-  marsFallback.colorSpace = THREE.SRGBColorSpace;
+  const mars3D = createMarsTextures();
 
   const textures = {
     earthDay: earthDayFallback,
@@ -187,8 +187,8 @@ export function loadCelestialTextures() {
     earthSpecular: null,
     earthNormal: null,
     moonAlbedo: moonAlbedoFallback,
-    marsAlbedo: marsFallback,
-    marsBump: null,
+    marsAlbedo: mars3D.albedoTexture,
+    marsBump: mars3D.bumpTexture,
   };
 
   const loadSafe = (key, url, isColor = true) => {

@@ -49,6 +49,7 @@ export function CelestialUI({
   onPlayClick = () => {},
   onReturnToDashboard = () => {},
   onOpenMars = () => {},
+  flightTelemetry = null,
 }) {
   const [showInfo, setShowInfo] = useState(true);
   const [showSitesDrawer, setShowSitesDrawer] = useState(false);
@@ -80,9 +81,9 @@ export function CelestialUI({
       desc: 'A dynamic blue marble enveloped by a protective nitrogen-oxygen atmosphere, swirling cloud systems, and nocturnal city lights.',
       data: [
         { label: 'RADIUS', value: '6,371 KM' },
-        { label: 'AXIAL TILT', value: '23.44°' },
+        { label: 'AXIAL TILT', value: '23.44Â°' },
         { label: 'DAY LENGTH', value: '23H 56M 04S' },
-        { label: 'MASS', value: '5.972 × 10²⁴ KG' },
+        { label: 'MASS', value: '5.972 Ã— 10Â²â´ KG' },
       ],
     },
     moon: {
@@ -91,8 +92,8 @@ export function CelestialUI({
       desc: 'Tidally locked in synchronous rotation, presenting ancient cratered highlands, dark volcanic maria, and human exploration sites.',
       data: [
         { label: 'RADIUS', value: '1,737.4 KM' },
-        { label: 'GRAVITY', value: '0.166 G (1.62 M/S²)' },
-        { label: 'INCLINATION', value: '5.145°' },
+        { label: 'GRAVITY', value: '0.166 G (1.62 M/SÂ²)' },
+        { label: 'INCLINATION', value: '5.145Â°' },
         { label: 'SYNODIC PERIOD', value: '29.53 DAYS' },
       ],
     },
@@ -102,7 +103,7 @@ export function CelestialUI({
       desc: 'The fourth planet from the Sun, bearing ancient volcanic shield calderas of Olympus Mons, the deep equatorial rift of Valles Marineris, and orbiting moons Phobos and Deimos.',
       data: [
         { label: 'RADIUS', value: '3,389.5 KM' },
-        { label: 'AXIAL TILT', value: '25.19°' },
+        { label: 'AXIAL TILT', value: '25.19Â°' },
         { label: 'SOL DURATION', value: '24H 37M' },
         { label: 'ATMOSPHERE', value: '95.3% CO2' },
       ],
@@ -114,8 +115,8 @@ export function CelestialUI({
       data: [
         { label: 'MOON DIST', value: '384,400 KM' },
         { label: 'MARS DIST', value: '1.524 AU' },
-        { label: 'MOON INC', value: '5.14°' },
-        { label: 'MARS INC', value: '1.85°' },
+        { label: 'MOON INC', value: '5.14Â°' },
+        { label: 'MARS INC', value: '1.85Â°' },
       ],
     },
   };
@@ -167,17 +168,6 @@ export function CelestialUI({
               );
             })}
           </nav>
-
-          <a
-            href="https://github.com/ruthvikroy/mars-simulation-"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-2.5 py-1.5 rounded border border-red-500/40 bg-red-950/60 text-red-300 hover:text-white hover:bg-red-900 transition-all flex items-center gap-1.5 cursor-pointer text-[11px] font-bold"
-            title="Explore Mars Simulation Source Repository on GitHub"
-          >
-            <Github size={13} />
-            <span className="hidden sm:inline">MARS REPO</span>
-          </a>
 
           <button
             onClick={() => {
@@ -237,7 +227,7 @@ export function CelestialUI({
                     ? 'bg-amber-400 text-black font-bold border-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
                     : 'bg-black/60 text-zinc-300 border-[var(--line)] hover:border-amber-400/60 hover:text-amber-200'
                 }`}
-                title={`${site.name} — ${site.landedAstronauts.join(' & ')}`}
+                title={`${site.name} â€” ${site.landedAstronauts.join(' & ')}`}
               >
                 {site.referenceImage && (
                   <img
@@ -322,7 +312,7 @@ export function CelestialUI({
 
           {activeSite.astronauts && (
             <div className="text-[10px] text-zinc-400 font-mono">
-              <span className="text-[var(--muted)]">CREW:</span> {activeSite.astronauts.join(' • ')}
+              <span className="text-[var(--muted)]">CREW:</span> {activeSite.astronauts.join(' â€¢ ')}
             </div>
           )}
 
@@ -656,20 +646,7 @@ export function CelestialUI({
               ))}
             </div>
 
-            {viewMode === 'mars' && (
-              <div className="border-t border-[var(--line)] pt-3 mt-3">
-                <a
-                  href="https://github.com/ruthvikroy/mars-simulation-"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded border border-red-500/50 bg-red-950/70 hover:bg-red-900 text-red-200 text-xs font-bold transition-all shadow-[0_0_12px_rgba(239,68,68,0.25)]"
-                >
-                  <Github size={13} />
-                  <span>MARS SIMULATION REPOSITORY</span>
-                  <ExternalLink size={11} className="opacity-70" />
-                </a>
-              </div>
-            )}
+            
           </aside>
         )}
 
@@ -679,7 +656,7 @@ export function CelestialUI({
           }`}
         >
           <span className="inline-block px-3 py-1.5 rounded border border-[var(--line)] bg-[var(--chip)] backdrop-blur-sm text-[var(--muted)] uppercase text-[11px]">
-            Drag to rotate • Move cursor for fluid interaction
+            Drag to rotate â€¢ Move cursor for fluid interaction
           </span>
         </div>
 
@@ -757,6 +734,86 @@ export function CelestialUI({
           </button>
         </div>
       </div>
+
+      {/* 6-DOF Flight Dynamics Reticle & Telemetry HUD Overlay */}
+      {flightTelemetry && (
+        <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-between p-4 sm:p-6 z-10 select-none">
+          {/* Top Flight Dynamics Status Badge */}
+          <div className="mt-14 sm:mt-12 flex items-center gap-2.5 sm:gap-3 bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 text-[11px] font-mono shadow-2xl">
+            <div className="flex items-center gap-1.5">
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  flightTelemetry.isWarping
+                    ? 'bg-cyan-400 animate-ping shadow-[0_0_8px_#22d3ee]'
+                    : flightTelemetry.thrustActive
+                    ? 'bg-amber-400 animate-pulse shadow-[0_0_8px_#f59e0b]'
+                    : flightTelemetry.isBraking
+                    ? 'bg-red-400 shadow-[0_0_8px_#ef4444]'
+                    : 'bg-emerald-400'
+                }`}
+              />
+              <span className="font-bold text-white tracking-wider uppercase text-[10px]">
+                {flightTelemetry.thrustMode}
+              </span>
+            </div>
+            <span className="text-white/20">|</span>
+            <div className="flex items-center gap-1 text-[#F5D000] font-bold">
+              <span>{flightTelemetry.speedKms}</span>
+              <span className="text-[9px] text-[#888888]">KM/S</span>
+            </div>
+            <span className="text-white/20">|</span>
+            <div className="flex items-center gap-1 text-zinc-300 text-[10px]">
+              <span className="text-zinc-500 uppercase">LOCK:</span>
+              <span className="font-bold text-white">{flightTelemetry.targetBody}</span>
+              <span className="text-zinc-400 font-mono text-[9px]">({flightTelemetry.targetDistance})</span>
+            </div>
+          </div>
+
+          {/* Central Aerospace Reticle */}
+          <div className="my-auto relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center pointer-events-none opacity-80 transition-transform duration-300">
+            <div className="absolute top-0 left-0 w-3.5 h-3.5 border-t-2 border-l-2 border-white/30" />
+            <div className="absolute top-0 right-0 w-3.5 h-3.5 border-t-2 border-r-2 border-white/30" />
+            <div className="absolute bottom-0 left-0 w-3.5 h-3.5 border-b-2 border-l-2 border-white/30" />
+            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 border-b-2 border-r-2 border-white/30" />
+
+            <div
+              className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-dashed transition-all duration-300 ${
+                flightTelemetry.isWarping
+                  ? 'border-cyan-400/90 scale-125 animate-spin shadow-[0_0_15px_rgba(34,211,238,0.5)]'
+                  : flightTelemetry.thrustActive
+                  ? 'border-amber-400/70 scale-105'
+                  : 'border-white/20'
+              }`}
+            />
+
+            <div className="absolute w-2 h-2 rounded-full bg-[#F5D000]/70" />
+            <div className="absolute w-8 h-[1px] bg-white/30" />
+            <div className="absolute h-8 w-[1px] bg-white/30" />
+          </div>
+
+          {/* Bottom Game Dynamics Flight Controls Bar */}
+          <div className="mb-14 sm:mb-2 flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded-lg border border-white/10 text-[10px] font-mono text-[#888888] shadow-2xl">
+            <span className="text-[#F5D000] font-bold tracking-wider mr-1">FLIGHT:</span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white font-bold">W/S</span>
+            <span>THRUST</span>
+            <span className="text-white/20">•</span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white font-bold">A/D</span>
+            <span>STRAFE</span>
+            <span className="text-white/20">•</span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white font-bold">Q/E</span>
+            <span>ELEVATION</span>
+            <span className="text-white/20">•</span>
+            <span className="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold">SHIFT</span>
+            <span className="text-amber-200">WARP</span>
+            <span className="text-white/20">•</span>
+            <span className="px-1.5 py-0.5 rounded bg-red-500/20 border border-red-500/40 text-red-300 font-bold">SPACE</span>
+            <span className="text-red-200">BRAKE</span>
+            <span className="text-white/20">•</span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-white font-bold">R</span>
+            <span>RESET</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

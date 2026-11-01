@@ -1,7 +1,7 @@
 /*
 Author: -REPLACE WITH YOUR NAME-
 OS support: -REPLACE WITH YOUR OS SUPPORT-
-Description: WebGL canvas for Earth and Moon 3D simulation with pinpoint reference images
+Description: WebGL canvas for Earth, Moon and Mars 3D simulation with 6-DOF game dynamics and authentic Mars textures
 */
 
 import React, { useEffect, useRef } from 'react';
@@ -24,6 +24,7 @@ export function CelestialCanvas({
   onSelectLandmarkId = () => {},
   onSelectBody = () => {},
   onUserInteracted = () => {},
+  onFlightTelemetry = () => {},
 }) {
   const canvasRef = useRef(null);
   const interactionRef = useRef(onUserInteracted);
@@ -34,6 +35,9 @@ export function CelestialCanvas({
 
   const onSelectLandmarkRef = useRef(onSelectLandmarkId);
   onSelectLandmarkRef.current = onSelectLandmarkId;
+
+  const onFlightTelemetryRef = useRef(onFlightTelemetry);
+  onFlightTelemetryRef.current = onFlightTelemetry;
 
   const viewModeRef = useRef(viewMode);
   viewModeRef.current = viewMode;
@@ -102,7 +106,7 @@ export function CelestialCanvas({
     const starfield = createStarField(width <= 768 ? 2200 : 3800);
     scene.add(starfield.group);
 
-    // Celestial Bodies (Earth & Moon)
+    // Celestial Bodies (Earth, Moon, and 3D Textured Mars)
     const textures = loadCelestialTextures();
     const earth = createEarthSystem(textures, sunDirection);
     earth.surfaceMesh.userData = { bodyId: 'earth' };
@@ -200,6 +204,7 @@ export function CelestialCanvas({
     }
     scene.add(debrisGroup);
 
+    // Interaction & Game Dynamic Flight Controls
     let isDragging = false;
     let dragStartX = 0;
     let dragStartY = 0;
@@ -212,6 +217,11 @@ export function CelestialCanvas({
     const gazeTarget = new THREE.Vector2(0, 0);
     const currentGaze = new THREE.Vector2(0, 0);
     const raycaster = new THREE.Raycaster();
+
+    // 6-DOF Spacecraft Flight Dynamic State
+    const shipVelocity = new THREE.Vector3(0, 0, 0);
+    let isPiloting = false;
+    const keysDown = {};
 
     const updatePointerPosition = (clientX, clientY) => {
       const ndcX = (clientX / window.innerWidth) * 2.0 - 1.0;
@@ -259,6 +269,7 @@ export function CelestialCanvas({
             for (const hit of intersects) {
               const hitId = hit.object?.userData?.landmarkId;
               if (hitId) {
+                isPiloting = false;
                 onSelectLandmarkRef.current(hitId);
                 break;
               }
@@ -268,6 +279,7 @@ export function CelestialCanvas({
             if (bodyHits.length > 0) {
               const bodyId = bodyHits[0].object?.userData?.bodyId;
               if (bodyId) {
+                isPiloting = false;
                 onSelectBodyRef.current(bodyId);
               }
             }
@@ -277,7 +289,6 @@ export function CelestialCanvas({
       isDragging = false;
     };
 
-    // Touch: touchstart and touchmove feed the exact same mouse position
     const handleTouchStart = (e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
@@ -293,15 +304,33 @@ export function CelestialCanvas({
       }
     };
 
+    // Keyboard Game Dynamics: WASD, Q/E, Shift, Space, R, Digits
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      if (e.code === 'Digit1') onSelectBody('overview');
-      else if (e.code === 'Digit2') onSelectBody('earth');
-      else if (e.code === 'Digit3') onSelectBody('moon');
-      else if (e.code === 'Digit4') onSelectBody('mars');
-    };
-    window.addEventListener('keydown', handleKeyDown);
+      keysDown[e.code] = true;
 
+      if (['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE', 'Space', 'ShiftLeft', 'ShiftRight', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+        interactionRef.current();
+        e.preventDefault();
+      }
+
+      if (e.code === 'KeyR') {
+        isPiloting = false;
+        shipVelocity.set(0, 0, 0);
+      }
+
+      if (e.code === 'Digit1') { isPiloting = false; onSelectBodyRef.current('overview'); }
+      else if (e.code === 'Digit2') { isPiloting = false; onSelectBodyRef.current('earth'); }
+      else if (e.code === 'Digit3') { isPiloting = false; onSelectBodyRef.current('moon'); }
+      else if (e.code === 'Digit4') { isPiloting = false; onSelectBodyRef.current('mars'); }
+    };
+
+    const handleKeyUp = (e) => {
+      keysDown[e.code] = false;
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
     window.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
@@ -320,7 +349,7 @@ export function CelestialCanvas({
     };
     window.addEventListener('resize', handleResize);
 
-    // Animation Loop
+    // Animation Loop with 6-DOF Flight Dynamics
     let animId;
     let lastTime = performance.now();
     let accumulatedTime = 0;
@@ -334,13 +363,15 @@ export function CelestialCanvas({
         accumulatedTime += dt;
       }
 
-      // Check reset
+      // Check reset trigger
       if (resetTriggerRef.current !== resetTrigger) {
         resetTriggerRef.current = resetTrigger;
         orbitRotationX = 0;
         orbitRotationY = 0;
         rotationVelocityX = 0;
         rotationVelocityY = 0;
+        shipVelocity.set(0, 0, 0);
+        isPiloting = false;
         gazeTarget.set(0, 0);
       }
 
@@ -374,11 +405,76 @@ export function CelestialCanvas({
       const mode = viewModeRef.current;
       const currentLandmark = landmarkIdRef.current;
       const moonPos = moon.getPosition();
+      const marsPos = mars.getPosition();
 
       const parallaxX = mouseNorm.x * 0.12 + currentGaze.x;
       const parallaxY = -mouseNorm.y * 0.1 + currentGaze.y;
 
-      if (currentLandmark) {
+      // 6-DOF Keyboard Thruster Game Dynamics
+      const forward = new THREE.Vector3();
+      camera.getWorldDirection(forward);
+      const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
+      const up = camera.up.clone().normalize();
+
+      const isWarp = Boolean(keysDown['ShiftLeft'] || keysDown['ShiftRight']);
+      const isBraking = Boolean(keysDown['Space']);
+      const accelRate = (isWarp ? 0.075 : 0.022) * (dt * 60);
+
+      let thrustActive = false;
+      const thrustVector = new THREE.Vector3();
+
+      if (keysDown['KeyW'] || keysDown['ArrowUp']) {
+        thrustVector.add(forward);
+        thrustActive = true;
+      }
+      if (keysDown['KeyS'] || keysDown['ArrowDown']) {
+        thrustVector.sub(forward);
+        thrustActive = true;
+      }
+      if (keysDown['KeyD'] || keysDown['ArrowRight']) {
+        thrustVector.add(right);
+        thrustActive = true;
+      }
+      if (keysDown['KeyA'] || keysDown['ArrowLeft']) {
+        thrustVector.sub(right);
+        thrustActive = true;
+      }
+      if (keysDown['KeyE']) {
+        thrustVector.add(up);
+        thrustActive = true;
+      }
+      if (keysDown['KeyQ']) {
+        thrustVector.sub(up);
+        thrustActive = true;
+      }
+
+      if (thrustActive) {
+        isPiloting = true;
+        thrustVector.normalize().multiplyScalar(accelRate);
+        shipVelocity.add(thrustVector);
+      }
+
+      if (isBraking) {
+        shipVelocity.multiplyScalar(0.85);
+      } else {
+        shipVelocity.multiplyScalar(0.972);
+      }
+
+      // Dynamic FOV punch for Warp Speed
+      const targetFOV = isWarp && thrustActive ? 44 : 35;
+      if (Math.abs(camera.fov - targetFOV) > 0.05) {
+        camera.fov = THREE.MathUtils.lerp(camera.fov, targetFOV, 0.08);
+        camera.updateProjectionMatrix();
+      }
+
+      // Orbital Tracking vs Free Game Piloting Mode
+      if (isPiloting) {
+        targetCamPos.add(shipVelocity);
+        targetLookAt.add(shipVelocity);
+        if (targetCamPos.length() > 28) {
+          targetCamPos.clampLength(0.6, 28);
+        }
+      } else if (currentLandmark) {
         const lm = LUNAR_LOCATIONS_MAP.get(currentLandmark);
         if (lm) {
           const coords = selenographicToCartesian(
@@ -425,7 +521,6 @@ export function CelestialCanvas({
         targetLookAt.x += currentGaze.x * 0.2;
         targetLookAt.y += currentGaze.y * 0.2;
       } else if (mode === 'mars') {
-        const marsPos = mars.getPosition();
         const offset = new THREE.Vector3(0.55, 0.25, 1.25);
         targetCamPos.copy(marsPos).add(offset);
         targetCamPos.x += parallaxX * 0.25;
@@ -438,11 +533,54 @@ export function CelestialCanvas({
         targetLookAt.set(0.6 + currentGaze.x * 0.4, currentGaze.y * 0.4, 0);
       }
 
-      currentCamPos.lerp(targetCamPos, 0.04);
-      currentLookAt.lerp(targetLookAt, 0.045);
+      currentCamPos.lerp(targetCamPos, 0.05);
+      currentLookAt.lerp(targetLookAt, 0.05);
 
       camera.position.copy(currentCamPos);
       camera.lookAt(currentLookAt);
+
+      // Real-time Flight Dynamics Telemetry
+      const speedKms = (shipVelocity.length() * 920).toFixed(1);
+      const thrustMode = isBraking
+        ? 'INERTIAL BRAKE'
+        : isWarp && thrustActive
+        ? 'WARP BOOST (3.5X)'
+        : thrustActive
+        ? 'FORWARD THRUST'
+        : isPiloting
+        ? 'ORBITAL DRIFT'
+        : 'AUTOPILOT LOCK';
+
+      const distEarth = camera.position.distanceTo(earth.group.position);
+      const distMoon = camera.position.distanceTo(moonPos);
+      const distMars = camera.position.distanceTo(marsPos);
+
+      let targetBody = 'EARTH';
+      let targetDistance = (distEarth * 6371).toFixed(0) + ' KM';
+      let minDist = distEarth;
+
+      if (distMoon < minDist) {
+        minDist = distMoon;
+        targetBody = 'MOON';
+        targetDistance = (distMoon * 3844).toFixed(0) + ' KM';
+      }
+      if (distMars < minDist) {
+        minDist = distMars;
+        targetBody = 'MARS';
+        targetDistance = (distMars * 0.32).toFixed(2) + ' AU';
+      }
+
+      onFlightTelemetryRef.current({
+        speedKms,
+        thrustMode,
+        targetBody,
+        targetDistance,
+        isWarping: isWarp && thrustActive,
+        isBraking,
+        thrustActive,
+        isPiloting,
+        keysDown,
+      });
 
       renderer.render(scene, camera);
     };
@@ -452,6 +590,7 @@ export function CelestialCanvas({
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
@@ -463,20 +602,11 @@ export function CelestialCanvas({
       earth.dispose();
       moon.dispose();
       mars.dispose();
-      debrisMat.dispose();
-      debrisList.forEach((d) => d.mesh.geometry.dispose());
       renderer.dispose();
     };
-  }, [resetTrigger]);
+  }, []);
 
-  return (
-    <canvas
-      id="space"
-      ref={canvasRef}
-      className="fixed inset-0 w-full h-full block cursor-grab active:cursor-grabbing"
-      style={{ zIndex: 0, touchAction: 'none' }}
-    />
-  );
+  return <canvas ref={canvasRef} id="space" className="w-full h-full block" />;
 }
 
 /* --- End of CelestialCanvas.jsx --- */

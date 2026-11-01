@@ -41,13 +41,13 @@ export function createMarsSystem(textures, sunDirection) {
   marsSystemGroup.add(marsTiltGroup);
 
   const marsRadius = 0.532;
-  const marsGeometry = new THREE.SphereGeometry(marsRadius, 48, 48);
+  const marsGeometry = new THREE.SphereGeometry(marsRadius, 64, 64);
 
   const marsMaterial = new THREE.MeshStandardMaterial({
     map: textures.marsAlbedo || null,
     bumpMap: textures.marsBump || null,
-    bumpScale: 0.035,
-    roughness: 0.86,
+    bumpScale: 0.045,
+    roughness: 0.82,
     metalness: 0.03,
   });
 

@@ -48,6 +48,16 @@ export default function App() {
   const [resetTrigger, setResetTrigger] = useState(0);
   const [selectedLandmarkId, setSelectedLandmarkId] = useState(null);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [flightTelemetry, setFlightTelemetry] = useState({
+    speedKms: '0.0',
+    thrustMode: 'AUTOPILOT LOCK',
+    targetBody: 'EARTH',
+    targetDistance: '6,371 KM',
+    isWarping: false,
+    isBraking: false,
+    thrustActive: false,
+    isPiloting: false,
+  });
 
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isDriveOpen, setIsDriveOpen] = useState(false);
@@ -258,6 +268,7 @@ export default function App() {
           playTelemetryBlip();
         }}
         onUserInteracted={handleUserInteracted}
+        onFlightTelemetry={setFlightTelemetry}
       />
 
       <Header
@@ -432,6 +443,7 @@ export default function App() {
             setViewMode('editorial');
             playTelemetryBlip();
           }}
+          flightTelemetry={flightTelemetry}
         />
       )}
 
