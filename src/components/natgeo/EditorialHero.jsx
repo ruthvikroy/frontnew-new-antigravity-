@@ -4,7 +4,7 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: Cinematic Space Punks editorial hero with realistic Earth and three-part split typography
 */
 import React, { useState } from 'react';
-import { ArrowDown, Compass, Globe, Sparkles, Github, ExternalLink } from 'lucide-react';
+import { ArrowDown, Compass, Globe, Sparkles } from 'lucide-react';
 import { SpaceScene } from '../../simulation/SpaceScene';
 
 export function EditorialHero({ onLaunchSimulation = () => {} }) {
@@ -98,16 +98,6 @@ export function EditorialHero({ onLaunchSimulation = () => {} }) {
             >
               03 • MARS SYSTEM 3D
             </button>
-            <span className="text-white/20 hidden md:inline">/</span>
-            <a
-              href="https://github.com/ruthvikroy/mars-simulation-"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden md:flex items-center gap-1.5 text-red-400 hover:text-white transition-colors"
-            >
-              <Github size={12} />
-              <span>MARS REPO</span>
-            </a>
           </div>
 
           <div className="flex items-center gap-4">

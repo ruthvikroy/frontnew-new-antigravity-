@@ -33,7 +33,59 @@ const SHIELD_VOLCANOES = [
 ];
 
 const PHOTO_STAMPS = [
+  // High-Resolution 3D Martian Surface Reference Textures from NASA Missions
   {
+    name: 'Ventifacts & Perched Rocks (Jezero/Séítah)',
+    url: '/assets/mars_reference/mars_ref_1_ventifacts.jpg',
+    u: 0.715,
+    v: 0.398,
+    scaleU: 0.12,
+    scaleV: 0.09,
+    opacity: 0.76,
+    dispWeight: 0.58,
+  },
+  {
+    name: 'Layered Sulfate Hillside Scree (Mount Sharp / Gale)',
+    url: '/assets/mars_reference/mars_ref_2_hillside.jpg',
+    u: 0.883,
+    v: 0.530,
+    scaleU: 0.12,
+    scaleV: 0.09,
+    opacity: 0.74,
+    dispWeight: 0.55,
+  },
+  {
+    name: 'Cross-Bedded Sandstone Strata (Jezero Delta Front)',
+    url: '/assets/mars_reference/mars_ref_3_crossbedding.jpg',
+    u: 0.728,
+    v: 0.415,
+    scaleU: 0.11,
+    scaleV: 0.08,
+    opacity: 0.78,
+    dispWeight: 0.60,
+  },
+  {
+    name: 'Basaltic Boulder Field & Bedrock Pavement (Chryse Planitia)',
+    url: '/assets/mars_reference/mars_ref_4_boulder_field.jpg',
+    u: 0.418,
+    v: 0.415,
+    scaleU: 0.12,
+    scaleV: 0.09,
+    opacity: 0.75,
+    dispWeight: 0.52,
+  },
+  {
+    name: 'Aeolian Sand Ripples & Dunes (Meridiani Planum)',
+    url: '/assets/mars_reference/mars_ref_5_sand_ripple.jpg',
+    u: 0.485,
+    v: 0.512,
+    scaleU: 0.11,
+    scaleV: 0.08,
+    opacity: 0.72,
+    dispWeight: 0.48,
+  },
+  {
+    name: 'Perseverance Cheyava Falls Bedrock',
     url: '/assets/aistudio/pia26344-1600x_c40461b6.webp',
     u: 0.715,
     v: 0.398,
@@ -43,6 +95,7 @@ const PHOTO_STAMPS = [
     dispWeight: 0.45,
   },
   {
+    name: 'Curiosity Marias Pass / Buckskin Drill Site',
     url: '/assets/aistudio/32322_mars-curiosity-rover-msl-horizon-sky-self-portrait-PIA19808-full_d447c1a3.jpg',
     u: 0.883,
     v: 0.530,
@@ -52,6 +105,7 @@ const PHOTO_STAMPS = [
     dispWeight: 0.42,
   },
   {
+    name: 'Mars Odyssey Polar CO2 Chasmata',
     url: '/assets/aistudio/mars-odyssey-orbiter-pia04816_c33d5cdc.webp',
     u: 0.944,
     v: 0.935,
@@ -624,3 +678,4 @@ export function applyMarsTextureMode(material, modeId = 'global-mola') {
   }
   material.needsUpdate = true;
 }
+

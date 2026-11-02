@@ -574,7 +574,7 @@ export function CelestialCanvas({
         ? 'FORWARD THRUST'
         : isPiloting
         ? 'ORBITAL DRIFT'
-        : 'AUTOPILOT LOCK';
+        : 'FREE CRUISE';
 
       const distEarth = camera.position.distanceTo(earth.group.position);
       const distMoon = camera.position.distanceTo(moonPos);

@@ -4,7 +4,7 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: Staggered Space Punks editorial grid featuring asteroid article, Mars series, videos, lava galleries, and nebula discovery
 */
 import React, { useState } from 'react';
-import { Play, ArrowUpRight, Camera, Film, Layers, Radio, Sparkles, Compass, Github } from 'lucide-react';
+import { Play, ArrowUpRight, Camera, Film, Layers, Radio, Sparkles, Compass } from 'lucide-react';
 
 export function FeaturedContentSection({
   onOpenArticleModal = () => {},
@@ -55,16 +55,6 @@ export function FeaturedContentSection({
                 ORBIT INCLINATION: 163.0° • ECCENTRICITY: 0.38
               </span>
               <div className="flex flex-wrap items-center gap-3">
-                <a
-                  href="https://github.com/ruthvikroy/mars-simulation-"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-2 border border-red-500/40 bg-red-950/40 text-red-300 hover:text-white hover:bg-red-900/60 text-xs font-mono-code font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_15px_rgba(239,68,68,0.2)]"
-                  title="Explore Mars Simulation Source on GitHub"
-                >
-                  <Github size={13} />
-                  <span>MARS REPO</span>
-                </a>
                 <button
                   onClick={() => onOpenArticleModal({
                     title: 'Is an Interstellar Asteroid Trapped Near Jupiter? Get the Facts.',

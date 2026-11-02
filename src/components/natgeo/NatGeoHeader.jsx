@@ -4,7 +4,7 @@ OS support: -REPLACE WITH YOUR OS SUPPORT-
 Description: Space Punks editorial header with branding and navigation
 */
 import React, { useState } from 'react';
-import { Search, Globe, Menu, X, Compass, Radio, Sparkles, Github } from 'lucide-react';
+import { Search, Globe, Menu, X, Compass, Radio, Sparkles } from 'lucide-react';
 
 export function NatGeoHeader({
   onLaunchSimulation = () => {},
@@ -19,7 +19,6 @@ export function NatGeoHeader({
     { id: 'hero', label: 'EXPLORE', href: '#hero' },
     { id: 'narrative', label: 'NARRATIVE', href: '#scroll-lock-stage' },
     { id: 'articles', label: 'ANALOG DISPATCHES', href: '#articles' },
-    { id: 'mars-surface', label: '3D MARS SURFACE', href: '#mars-surface-simulation' },
   ];
 
   return (

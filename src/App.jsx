@@ -19,7 +19,6 @@ import { NatGeoHeader } from './components/natgeo/NatGeoHeader.jsx';
 import { EditorialHero } from './components/natgeo/EditorialHero.jsx';
 import { ScrollLockTextSection } from './components/natgeo/ScrollLockTextSection.jsx';
 import { ArticlesSection } from './components/natgeo/ArticlesSection.jsx';
-import { MarsSurface3DSimulation } from './components/mars/MarsSurface3DSimulation.jsx';
 import { NatGeoFooter } from './components/natgeo/NatGeoFooter.jsx';
 import { ArticleReaderModal } from './components/natgeo/ArticleReaderModal.jsx';
 import { VideoModal } from './components/natgeo/VideoModal.jsx';
@@ -50,7 +49,7 @@ export default function App() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [flightTelemetry, setFlightTelemetry] = useState({
     speedKms: '0.0',
-    thrustMode: 'AUTOPILOT LOCK',
+    thrustMode: 'FREE CRUISE',
     targetBody: 'EARTH',
     targetDistance: '6,371 KM',
     isWarping: false,
@@ -216,8 +215,6 @@ export default function App() {
               playTelemetryBlip();
             }}
           />
-
-          <MarsSurface3DSimulation />
         </main>
 
         <NatGeoFooter

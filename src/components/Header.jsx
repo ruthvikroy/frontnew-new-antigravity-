@@ -5,7 +5,7 @@ Description: Global header bar with navigation and 3D View mode switch
 */
 
 import React from 'react';
-import { ArrowLeftRight, Cloud, Eye, Compass, Github } from 'lucide-react';
+import { ArrowLeftRight, Cloud, Eye, Compass } from 'lucide-react';
 
 export function Header({
   syncScroll,

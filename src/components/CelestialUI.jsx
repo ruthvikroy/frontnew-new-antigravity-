@@ -792,16 +792,6 @@ export function CelestialUI({
               {currentDesc.desc}
             </p>
 
-            {/* 3D Celestial Engine Side Quote */}
-            <div className="my-3 pl-3 border-l-2 border-[#F5D000] bg-white/[0.04] py-2 pr-2.5 rounded-r">
-              <p className="text-[11px] italic text-[#e4e4e7] leading-relaxed">
-                "Three terrestrial celestial bodies suspended together in the cosmic void — Earth, Moon, and Mars bound by orbital mechanics, gravitational equilibrium, and solar irradiance."
-              </p>
-              <span className="block mt-1 text-[9px] uppercase tracking-wider text-[#F5D000] font-mono font-bold">
-                — 3D CELESTIAL ENGINE
-              </span>
-            </div>
-
             {/* Celestial Body Metrics */}
             <div className="border-t border-[var(--line)] pt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
               {currentDesc.data.map((item) => (
@@ -815,52 +805,6 @@ export function CelestialUI({
                 </div>
               ))}
             </div>
-
-            {/* Live Flight Telemetry (Side Panel) */}
-            {flightTelemetry && (
-              <div className="mt-3 pt-3 border-t border-[var(--line)]">
-                <div className="flex items-center justify-between text-[10px] font-mono mb-2">
-                  <span className="text-zinc-400 uppercase tracking-wider font-semibold">
-                    FLIGHT TELEMETRY
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        flightTelemetry.isWarping
-                          ? 'bg-cyan-400 animate-ping shadow-[0_0_6px_#22d3ee]'
-                          : flightTelemetry.thrustActive
-                          ? 'bg-amber-400 animate-pulse shadow-[0_0_6px_#f59e0b]'
-                          : flightTelemetry.isBraking
-                          ? 'bg-red-400 shadow-[0_0_6px_#ef4444]'
-                          : 'bg-emerald-400'
-                      }`}
-                    />
-                    <span className="font-bold text-[#F5D000] text-[10px] uppercase">
-                      {flightTelemetry.thrustMode}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 text-[10px] font-mono bg-black/60 p-2.5 rounded border border-white/10">
-                  <div>
-                    <span className="text-zinc-400 block text-[9px] uppercase tracking-wider">Velocity</span>
-                    <span className="text-white font-bold text-[12px]">
-                      {flightTelemetry.speedKms}{' '}
-                      <span className="text-[#F5D000] text-[9px]">KM/S</span>
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-zinc-400 block text-[9px] uppercase tracking-wider">Target Lock</span>
-                    <span className="text-white font-bold text-[12px]">
-                      {flightTelemetry.targetBody}{' '}
-                      <span className="text-zinc-300 text-[9px] font-normal">
-                        ({flightTelemetry.targetDistance})
-                      </span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
           </aside>
         )}
 

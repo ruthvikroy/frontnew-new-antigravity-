@@ -92,15 +92,15 @@ export const MARS_LANDMARKS = [
     coords: '18.38°N, 77.58°E • Elev -2.5 km',
     areographic: { latitudeDeg: 18.38, longitudeDeg: 77.58 },
     description:
-      'Ancient 45 km lakebed and Neretva Vallis river channel where Perseverance captured Mastcam-Z stereo core pairs (ZCAM10053), SuperCam RMI micro-textures (SCAM04020), and "Cheyava Falls" (PIA26344).',
-    referenceImage: '/assets/aistudio/pia26344-1600x_c40461b6.webp',
-    image: '/assets/aistudio/pia26344-1600x_c40461b6.webp',
-    referenceCredit: 'NASA / JPL-Caltech / MSSS / ASU (PIA26344 · ZCAM10053)',
+      'Ancient 45 km lakebed and Neretva Vallis river channel where Perseverance surveyed wind-sculpted ventifacts, perched rocks, Mastcam-Z stereo core pairs (ZCAM10053), and "Cheyava Falls" (PIA26344).',
+    referenceImage: '/assets/mars_reference/mars_ref_1_ventifacts.jpg',
+    image: '/assets/mars_reference/mars_ref_1_ventifacts.jpg',
+    referenceCredit: 'NASA / JPL-Caltech / MSSS / ASU (Mastcam-Z Ventifacts & ZCAM10053)',
     catalogId: 'PIA26344 · ZCAM',
     missionName: 'Perseverance Mastcam-Z & SuperCam Suite',
     elevationKm: '-2.5 km Ancient Delta',
     featureDescription:
-      'Mastcam-Z ZL0/ZR0 stereo cored bedrock, Kodiak cross-bedded sandstone (ZCAM08693), and Cheyava Falls drill site.',
+      'Wind-sculpted perched ventifacts, Mastcam-Z stereo cored bedrock, Kodiak cross-bedded sandstone, and Cheyava Falls drill site.',
     preferredTextureMode: 'zcam-stereo-dem',
     specs: {
       Diameter: '45.0 km',
@@ -123,12 +123,10 @@ export const MARS_LANDMARKS = [
     coords: '5.4°S, 137.8°E • Aeolis Mons +5.5 km',
     areographic: { latitudeDeg: -5.4, longitudeDeg: 137.8 },
     description:
-      '154 km impact basin hosting 5.5 km-high Aeolis Mons (Mount Sharp), where Curiosity drilled the "Buckskin" rock target in Marias Pass.',
-    referenceImage:
-      '/assets/aistudio/32322_mars-curiosity-rover-msl-horizon-sky-self-portrait-PIA19808-full_d447c1a3.jpg',
-    image:
-      '/assets/aistudio/32322_mars-curiosity-rover-msl-horizon-sky-self-portrait-PIA19808-full_d447c1a3.jpg',
-    referenceCredit: 'NASA / JPL-Caltech / MSSS (PIA19808)',
+      '154 km impact basin hosting 5.5 km-high Aeolis Mons (Mount Sharp), presenting layered sulfate hillside scree slopes, bedrock escarpments, and Marias Pass silica deposits.',
+    referenceImage: '/assets/mars_reference/mars_ref_2_hillside.jpg',
+    image: '/assets/mars_reference/mars_ref_2_hillside.jpg',
+    referenceCredit: 'NASA / JPL-Caltech / MSSS (Mount Sharp Layered Scree & Strata)',
     catalogId: 'PIA19808',
     missionName: 'Mars Science Laboratory Curiosity Rover',
     elevationKm: '+5.5 km Aeolis Mons Peak',
@@ -188,9 +186,9 @@ export const MARS_LANDMARKS = [
     areographic: { latitudeDeg: -13.9, longitudeDeg: -59.2 },
     description:
       'Colossal tectonic canyon system stretching over 4,000 km along the Martian equator and plunging up to 7 km deep beneath morning water-ice cloud wisps.',
-    referenceImage: '/assets/aistudio/1-mars-nasa-gov-jpg_e2a27276.webp',
-    image: '/assets/aistudio/1-mars-nasa-gov-jpg_e2a27276.webp',
-    referenceCredit: 'NASA / USGS Global Mars Mosaic',
+    referenceImage: '/assets/mars_reference/mars_ref_3_crossbedding.jpg',
+    image: '/assets/mars_reference/mars_ref_3_crossbedding.jpg',
+    referenceCredit: 'NASA / MRO HiRISE & Surface Imaging (Cross-Bedded Strata Outcrop)',
     catalogId: 'NASA-MARS-GLOBAL',
     missionName: 'Viking & Mars Global Surveyor Mosaic',
     elevationKm: '-7.0 km Chasma Floor',
@@ -250,11 +248,9 @@ export const MARS_LANDMARKS = [
     areographic: { latitudeDeg: 22.4, longitudeDeg: -38.7 },
     description:
       'Outflow basin and atmospheric limb showcasing Mars’s thin semi-transparent CO2 envelope, drifting water-ice cirrus clouds, and MEDA SkyCam solar scattering.',
-    referenceImage:
-      '/assets/aistudio/32322_mars-curiosity-rover-msl-horizon-sky-self-portrait-PIA19808-full_d447c1a3.jpg',
-    image:
-      '/assets/aistudio/32322_mars-curiosity-rover-msl-horizon-sky-self-portrait-PIA19808-full_d447c1a3.jpg',
-    referenceCredit: 'NASA / JPL-Caltech / MEDA SkyCam (MEDA00000 · PIA19808)',
+    referenceImage: '/assets/mars_reference/mars_ref_4_boulder_field.jpg',
+    image: '/assets/mars_reference/mars_ref_4_boulder_field.jpg',
+    referenceCredit: 'NASA / Surface Imaging (Basaltic Boulder Field on Regolith)',
     catalogId: 'MEDA-SKY-LIMB',
     missionName: 'Perseverance MEDA & MSL Atmospheric Optics',
     elevationKm: '-3.6 km Outflow Limb',
@@ -286,3 +282,4 @@ export function areographicToCartesian(latDeg, lonDeg, radius = 1.0) {
     z: radius * Math.sin(phi) * Math.sin(theta),
   };
 }
+
